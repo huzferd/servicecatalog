@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+	"parameters": {
+        "siteName": {
+            "value": ""
+        },
+        "administratorLogin": {
+            "value": ""
+        },
+        "administratorLoginPassword": {
+            "value": ""
+        },
+        "skuName": {
+            "value": "S1",
+        },
+        "clientId": {
+             "value": ""
+        },
+        "clientSecret": {
+            "value": ""
+        },
+        "tenant": {
+             "value": ""
+        },
+        "aadInstance":{
+            "value": "https://login.microsoftonline.com/{0}"
+        },
+        "manageResource":{
+            "value": "https://management.azure.com/"
+        },
+        "graphResource": {
+            "value": "https://graph.windows.net"
+        }
+    },
+}

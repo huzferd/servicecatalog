@@ -1,0 +1,99 @@
+﻿@using System.Security.Claims
+
+@{
+    ViewBag.Title = "Deployments";
+}
+
+<div>
+    <h4>Deployments</h4>
+    <hr />
+    @Html.ValidationSummary(true)
+    <table class="table table-bordered table-responsive table-hover">
+        <tr>
+            <th>Template Name</th>
+            <th>Deployment Name</th>
+            <th>Subscription Name</th>
+            <th>Version</th>
+            <th>Status</th>
+            <th>Time</th>
+            <th>Owner</th>
+            <th>Outputs</th>
+            <th>Logs</th>
+        </tr>
+        @{ int count = 0; }
+        @foreach (var deployment in ViewBag.Deployments)
+        {
+            <tr>
+                <td>@deployment.TemplateName</td>
+                <td>@deployment.DeploymentName</td>
+                <td title="@deployment.SubscriptionId">@deployment.SubscriptionName</td>
+                <td>@deployment.TemplateVersion</td>
+                @{
+                    var state = deployment.ProvisioningState;
+                }
+                @if (state == "Succeeded")
+                {
+                    <td class="successed-status">@state</td>
+                }
+                else if (state == "Failed")
+                {
+                    <td class="failed-status">@state</td>
+                }
+                else
+                {
+                    <td class="other-status">@state</td>
+                }
+                <td>@deployment.Timestamp.ToString("MM/dd/yyyy hh:mm")</td>
+                <td title="@deployment.Owner">@deployment.Owner.Substring(0, deployment.Owner.IndexOf("@"))</td>
+                <td>
+                    <a class="btn btn-primary show-button" data-toggle="modal" data-target="#outputsModal">
+                        Show Outputs
+                        <p id="output-@count" style="display: none;">
+                            @deployment.Outputs
+                        </p>
+                    </a>
+                </td>
+                <td>
+                    @Html.ActionLink("Download Log", "GetLogFile", "Deployment",
+                                    new { fileName = @ViewBag.FileLogName },
+                                    new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+            count++;
+        }
+    </table>
+    <div class="modal fade" id="outputsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 500px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Outputs</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea readonly id="outputsModalBody" rows="10" style="width: 100%">
+                    </textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        if (!window.jQuery) {
+            console.error("jQuery is not defined");
+        } else {
+            (function ($) {
+
+                $('.show-button').click(function (event) {
+                    $('#myModal').modal('show');
+                    $('#outputsModalBody').val($.trim(event.target.children[0].innerText));
+                });
+            })(window.jQuery);
+        }
+    </script>
+}

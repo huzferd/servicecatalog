@@ -1,0 +1,183 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "siteName": {
+            "type": "string"
+        },
+        "administratorLogin": {
+            "type": "string"
+        },
+        "administratorLoginPassword": {
+            "type": "securestring"
+        },
+        "skuName": {
+            "type": "string",
+            "defaultValue": "S1",
+            "allowedValues": [
+                "S1",
+                "S2",
+                "S3"
+            ],
+            "metadata": {
+                "description": "Describes plan's pricing tier and instance size. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
+            }
+        },
+        "clientId": {
+            "type": "string"
+        },
+        "clientSecret": {
+            "type": "string"
+        },
+        "tenant": {
+            "type": "string"
+        },
+        "aadInstance":{
+            "type": "string",
+            "defaultValue": "https://login.microsoftonline.com/{0}"
+        },
+        "manageResource":{
+            "type": "string",
+            "defaultValue": "https://management.azure.com/"
+        },
+        "graphResource": {
+            "type": "string",
+            "defaultValue": "https://graph.windows.net"
+        }
+    },
+    "variables": {
+        "hostingPlanName": "[concat('hostingplan', uniqueString(resourceGroup().id))]",
+        "sqlServerName": "[concat('sqlserver', uniqueString(resourceGroup().id))]",
+        "databaseName": "[concat('database_', uniqueString(resourceGroup().id))]",
+        "maxSizeBytes": 268435456000,
+        "collation": "SQL_Latin1_General_CP1_CI_AS",
+        "tier": "Standard"
+    },
+    "resources": [
+        {
+            "apiVersion": "2015-05-01-preview",
+            "location": "[resourceGroup().location]",
+            "name": "[variables('sqlServerName')]",
+            "properties": {
+                "administratorLogin": "[parameters('administratorLogin')]",
+                "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
+                "version": "12.0"
+            },
+            "resources": [
+                {
+                    "apiVersion": "2017-10-01-preview",
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', variables('sqlServerName'))]"
+                    ],
+                    "location": "[resourceGroup().location]",
+                    "name": "[variables('databaseName')]",
+                    "properties": {
+                        "collation": "[variables('collation')]",
+                        "maxSizeBytes": "[variables('maxSizeBytes')]",
+                        "sampleName": "",
+                        "zoneRedundant": false,
+                        "licenseType": ""
+                    },
+                    "sku": {
+                        "name": "[parameters('skuName')]",
+                        "tier": "[variables('tier')]"
+                    },
+                    "type": "databases"
+                },
+                {
+                    "apiVersion": "2014-04-01-preview",
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', variables('sqlServerName'))]"
+                    ],
+                    "location": "[resourceGroup().location]",
+                    "name": "AllowAllWindowsAzureIps",
+                    "properties": {
+                        "endIpAddress": "0.0.0.0",
+                        "startIpAddress": "0.0.0.0"
+                    },
+                    "type": "firewallrules"
+                }
+            ],
+            "type": "Microsoft.Sql/servers"
+        },
+        {
+            "apiVersion": "2016-03-01",
+            "name": "[parameters('siteName')]",
+            "type": "Microsoft.Web/sites",
+            "properties": {
+                "name": "[parameters('siteName')]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+                "hostingEnvironment": ""
+            },
+            "location": "[resourceGroup().location]",
+            "tags": {
+                "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/', variables('hostingPlanName'))]": "empty"
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Web/serverfarms/', variables('hostingPlanName'))]"
+            ],
+            "resources": [
+                {
+                    "name": "appsettings",
+                    "type": "config",
+                    "apiVersion": "2015-08-01",
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/sites/', parameters('siteName'))]"
+                    ],
+                    "tags": {
+                        "displayName": "ApplicationSettings"
+                    },
+                    "properties": {
+                        "CLIENT_ID": "[parameters('clientId')]",
+                        "CLIENT_SECRET": "[parameters('clientSecret')]",
+                        "AAD_INSTANCE": "[parameters('aadInstance')]",
+                        "MANAGEMENT_RESOURCE": "[parameters('manageResource')]",
+                        "GRAPH_RESOURCE": "[parameters('graphResource')]",
+                        "TENANT": "[parameters('tenant')]"
+                    }
+                },
+                {
+                    "apiVersion": "2015-08-01",
+                    "type": "config",
+                    "name": "connectionstrings",
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/sites/', parameters('siteName'))]"
+                    ],
+                    "properties": {
+                        "DefaultConnection": {
+                            "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('sqlServerName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
+                            "type": "SQLAzure"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "apiVersion": "2016-09-01",
+            "name": "[variables('hostingPlanName')]",
+            "type": "Microsoft.Web/serverfarms",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "name": "[variables('hostingPlanName')]",
+                "workerSizeId": "0",
+                "reserved": false,
+                "numberOfWorkers": "1",
+                "hostingEnvironment": ""
+            },
+            "sku": {
+                "Tier": "[variables('tier')]",
+                "Name": "[parameters('skuName')]"
+            }
+        }
+    ],
+    "outputs": {
+        "siteUri": {
+            "type": "string",
+            "value": "[reference(concat('Microsoft.Web/sites/', parameters('siteName'))).hostnames[0]]"
+        },
+        "sqlSvrFqdn": {
+            "type": "string",
+            "value": "[reference(concat('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName]"
+        }
+    }
+}
