@@ -18,7 +18,6 @@ namespace ServiceCatalog.Migrations
 
         protected override void Seed(Context.WebAppContext context)
         {
-            context.Database.Initialize(false);
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 

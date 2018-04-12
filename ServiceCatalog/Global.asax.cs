@@ -12,6 +12,8 @@ namespace ServiceCatalog
     using System;
     using System.Diagnostics;
     using NLog;
+    using System.Data.Entity.Migrations;
+    using Migrations;
 
     public class MvcApplication : System.Web.HttpApplication
     {
@@ -28,16 +30,11 @@ namespace ServiceCatalog
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-        }
 
-        //protected void Application_PostAuthenticateRequest()
-        //{
-        //    var rolesheader = Context.Request.Headers["RolesHeader"];
-        //    var userId = Context.Request.Headers["UserId"];
-        //    var roles = rolesheader.Split(',');
-        //    var principal = new GenericPrincipal(new GenericIdentity(userId), roles);
-        //    Context.User = principal;
-        //}
+            // CODE FIRST MIGRATIONS
+            var migrator = new DbMigrator(new Configuration());
+            migrator.Update();
+        }
 
         protected void Application_Error(object sender, EventArgs e)
         {
