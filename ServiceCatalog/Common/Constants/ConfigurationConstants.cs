@@ -13,6 +13,6 @@ namespace ServiceCatalog
         public const string AadInstanceName = "AAD_INSTANCE";
         public const string ManagementResourceName = "MANAGEMENT_RESOURCE";
         public const string TenantName = "TENANT";
-        public const string ConnectionStringName = "ServiceCatalogConnection";
+        public const string ConnectionStringName = "DefaultConnection";
     }
 }
