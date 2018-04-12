@@ -142,7 +142,7 @@
                         "MANAGEMENT_RESOURCE": "[parameters('manageResource')]",
                         "GRAPH_RESOURCE": "[parameters('graphResource')]",
                         "TENANT": "[parameters('tenant')]",
-                        "PROJECT": "Source\\ServiceCatalog\\ServiceCatalog.csproj",
+                        "PROJECT": "ServiceCatalog\\ServiceCatalog.csproj",
                         "clientUrl": "[concat('http://', parameters('siteName'), '.azurewebsites.net')]"
                     }
                 },
