@@ -141,7 +141,9 @@
                         "AAD_INSTANCE": "[parameters('aadInstance')]",
                         "MANAGEMENT_RESOURCE": "[parameters('manageResource')]",
                         "GRAPH_RESOURCE": "[parameters('graphResource')]",
-                        "TENANT": "[parameters('tenant')]"
+                        "TENANT": "[parameters('tenant')]",
+                        "PROJECT": "Source\\ServiceCatalog\\ServiceCatalog.csproj",
+                        "clientUrl": "[concat('http://', parameters('siteName'), '.azurewebsites.net')]"
                     }
                 },
                 {
@@ -156,18 +158,6 @@
                             "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('sqlServerName'), ';Password=', parameters('administratorLoginPassword'), ';')]",
                             "type": "SQLAzure"
                         }
-                    }
-                },
-                {
-                    "apiVersion": "2015-04-01",
-                    "name": "appsettings",
-                    "type": "config",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"
-                    ],
-                    "properties": {
-                        "PROJECT": "Source\\ServiceCatalog\\ServiceCatalog.csproj",
-                        "clientUrl": "[concat('http://', parameters('siteName'), '.azurewebsites.net')]"
                     }
                 },
                 {
