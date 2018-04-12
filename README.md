@@ -11,7 +11,7 @@ DataScience web application can be used to deploy Azure N-Series VMs.
 <h2>Deployment</h2>
 
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
-[![Visualize](http://armviz.io/visualizebutton.png)](http://armviz.io/#/?load=)
+[![Visualize](http://armviz.io/visualizebutton.png)](http://armviz.io/#/?load=https://raw.githubusercontent.com/huzferd/servicecatalog/master/azuredeploy.json)
 
 
 **Installation process:**
