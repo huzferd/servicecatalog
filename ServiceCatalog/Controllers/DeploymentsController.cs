@@ -89,6 +89,7 @@ namespace ServiceCatalog.Controllers
                 }
 
                 ViewBag.Deployments = resultDeployments;
+                ViewBag.FileLogName = $"{DateTime.Today:yyyy-MM-dd}.log";
             }
             catch (Exception ex)
             {

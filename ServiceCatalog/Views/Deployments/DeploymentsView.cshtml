@@ -8,60 +8,69 @@
     <h4>Deployments</h4>
     <hr />
     @Html.ValidationSummary(true)
-    <table class="table table-bordered table-responsive table-hover">
-        <tr>
-            <th>Template Name</th>
-            <th>Deployment Name</th>
-            <th>Subscription Name</th>
-            <th>Version</th>
-            <th>Status</th>
-            <th>Time</th>
-            <th>Owner</th>
-            <th>Outputs</th>
-            <th>Logs</th>
-        </tr>
-        @{ int count = 0; }
-        @foreach (var deployment in ViewBag.Deployments)
-        {
+    
+    @if (ViewBag.Deployments.Count > 0)
+    {
+        <table class="table table-bordered table-responsive table-hover">
             <tr>
-                <td>@deployment.TemplateName</td>
-                <td>@deployment.DeploymentName</td>
-                <td title="@deployment.SubscriptionId">@deployment.SubscriptionName</td>
-                <td>@deployment.TemplateVersion</td>
-                @{
-                    var state = deployment.ProvisioningState;
-                }
-                @if (state == "Succeeded")
-                {
-                    <td class="successed-status">@state</td>
-                }
-                else if (state == "Failed")
-                {
-                    <td class="failed-status">@state</td>
-                }
-                else
-                {
-                    <td class="other-status">@state</td>
-                }
-                <td>@deployment.Timestamp.ToString("MM/dd/yyyy hh:mm")</td>
-                <td title="@deployment.Owner">@deployment.Owner.Substring(0, deployment.Owner.IndexOf("@"))</td>
-                <td>
-                    <a class="btn btn-primary show-button" data-toggle="modal" data-target="#outputsModal">
-                        Show Outputs
-                        <p id="output-@count" style="display: none;">
-                            @deployment.Outputs
-                        </p>
-                    </a>
-                </td>
-                <td>
-                    @Html.ActionLink("Download Log", "GetLogFile", "Deployment",
-                                    new { fileName = @ViewBag.FileLogName },
-                                    new { @class = "btn btn-danger" })
-                </td>
+                <th>Template Name</th>
+                <th>Deployment Name</th>
+                <th>Subscription Name</th>
+                <th>Version</th>
+                <th>Status</th>
+                <th>Time</th>
+                <th>Owner</th>
+                <th>Outputs</th>
+                <th>Logs</th>
             </tr>
-            count++;
-        }
-    </table>
+            @{ int count = 0; }
+            @foreach (var deployment in ViewBag.Deployments)
+            {
+                <tr>
+                    <td>@deployment.TemplateName</td>
+                    <td>@deployment.DeploymentName</td>
+                    <td title="@deployment.SubscriptionId">@deployment.SubscriptionName</td>
+                    <td>@deployment.TemplateVersion</td>
+                    @{
+                        var state = deployment.ProvisioningState;
+                    }
+                    @if (state == "Succeeded")
+                    {
+                        <td class="successed-status">@state</td>
+                    }
+                    else if (state == "Failed")
+                    {
+                        <td class="failed-status">@state</td>
+                    }
+                    else
+                    {
+                        <td class="other-status">@state</td>
+                    }
+                    <td>@deployment.Timestamp.ToString("MM/dd/yyyy hh:mm")</td>
+                    <td title="@deployment.Owner">@deployment.Owner.Substring(0, deployment.Owner.IndexOf("@"))</td>
+                    <td>
+                        <a class="btn btn-primary show-button" data-toggle="modal" data-target="#outputsModal">
+                            Show Outputs
+                            <p id="output-@count" style="display: none;">
+                                @deployment.Outputs
+                            </p>
+                        </a>
+                    </td>
+                    <td>
+                        @Html.ActionLink("Download Log", "GetLogFile", "Deployment",
+                            new {fileName = @ViewBag.FileLogName},
+                            new {@class = "btn btn-danger"})
+                    </td>
+                </tr>
+                count++;
+            }
+        </table>
+    }
+    else
+    {
+        <p>No deployments to display</p>
+    }
+
     <div class="modal fade" id="outputsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="width: 500px;">

@@ -378,6 +378,8 @@
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\servicecatalog94a0 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\servicecatalog94a0 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\servicecatalogdeeb - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\servicecatalogdeeb - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ShibbolethWebApp - Web Deploy.pubxml" />

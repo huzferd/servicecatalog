@@ -10,7 +10,7 @@ Import-Module AzureRM.Resources
 $url = "https://$siteName.azurewebsites.net/"
 $replyUrl = "$url.auth/login/aad/callback"
 $replyUrls = @($url, $replyUrl)
-$endDate = (Get-Date).AddYears(3)
+$endDate = (Get-Date).AddYears(4)
 
 # Login to your Azure Subscription
 Login-AzureRMAccount
@@ -19,22 +19,18 @@ Set-AzureRMContext -SubscriptionId $subscriptionId -TenantId $tenantId
 # Create an Octopus Deploy Application in Active Directory1.1
 Write-Output "Creating AAD application..."
 $securePassword = ConvertTo-SecureString $password -AsPlainText -Force
-$azureAdApplication = New-AzureRmADApplication -DisplayName $appName -HomePage $url -IdentifierUris $url -Password $securePassword -ReplyUrls $replyUrls -EndDate $endDate
-$azureAdApplication #| Format-Table
+$azureAdApplication = New-AzureRmADApplication -DisplayName $siteName -HomePage $url -IdentifierUris $url -Password $securePassword -ReplyUrls $replyUrls -EndDate $endDate
 
 # Create the Service Principal
 Write-Output "Creating AAD service principal..."
-$servicePrincipal = New-AzureRmADServicePrincipal -ApplicationId $azureAdApplication.ApplicationId
-$servicePrincipal #| Format-Table
+New-AzureRmADServicePrincipal -ApplicationId $azureAdApplication.ApplicationId
 
 # Sleep, to Ensure the Service Principal is Actually Created
 Write-Output "Sleeping for 10s to give the service principal a chance to finish creating..."
 Start-Sleep -s 10
 
 # Assign the Service Principal the Contributor Role to the Subscription.
-# Roles can be Granted at the Resource Group Level if Desired.
 Write-Output "Assigning the Contributor role to the service principal..."
-
 Connect-AzureAD
 New-AzureRmRoleAssignment -RoleDefinitionName Contributor -ServicePrincipalName $azureAdApplication.ApplicationId
 
@@ -42,7 +38,7 @@ New-AzureRmRoleAssignment -RoleDefinitionName Contributor -ServicePrincipalName 
 Write-Output "Assigning the delegated permissions..."
 $requiredResources = [System.Collections.Generic.List[Microsoft.Open.AzureAD.Model.RequiredResourceAccess]]::New()
 
-# Section 1
+# Section 1 | Windows Azure Active Directory
 $requiredResourceAccess1 = [Microsoft.Open.AzureAD.Model.RequiredResourceAccess]::New()
 $requiredResourceAccess1.ResourceAppId = "00000002-0000-0000-c000-000000000000"
 
@@ -73,7 +69,7 @@ $resourceAccess1_6.Type = "Scope"
 $requiredResourceAccess1.ResourceAccess = $resourceAccess1_1, $resourceAccess1_2, $resourceAccess1_3, $resourceAccess1_4, $resourceAccess1_5, $resourceAccess1_6
 $requiredResources.Add($requiredResourceAccess1)
 
-# Section 2
+# Section 2 | Windows Azure Service Management API
 $requiredResourceAccess2 = [Microsoft.Open.AzureAD.Model.RequiredResourceAccess]::New()
 $requiredResourceAccess2.ResourceAppId = "797f4846-ba00-4fd7-ba43-dac1f8f63013"
 
@@ -84,7 +80,7 @@ $resourceAccess2_1.Type = "Scope"
 $requiredResourceAccess2.ResourceAccess = $resourceAccess2_1
 $requiredResources.Add($requiredResourceAccess2);
 
-# Section 3
+# Section 3 | Microsoft Graph
 $requiredResourceAccess3 = [Microsoft.Open.AzureAD.Model.RequiredResourceAccess]::New()
 $requiredResourceAccess3.ResourceAppId = "00000003-0000-0000-c000-000000000000"
 
@@ -99,13 +95,19 @@ $resourceAccess3_2.Type = "Scope"
 $requiredResourceAccess3.ResourceAccess = $resourceAccess3_1, $resourceAccess3_2;
 $requiredResources.Add($requiredResourceAccess3);
 
+# Update Azure AD Application
 Set-AzureADApplication -ObjectId $azureAdApplication.ObjectId -RequiredResourceAccess $requiredResources
 
 # Generate a client secret
 $passwordCredential = New-AzureADApplicationPasswordCredential -ObjectId $azureAdApplication.ObjectId -StartDate $now -EndDate $endDate
-$passwordCredential
 
-# The Application ID (aka Client ID) will be Required When Creating the Account in Octopus Deploy
-Write-Output "Client ID: $($azureAdApplication.ApplicationId)"
-Write-Output "Client Secret: $($passwordCredential.Value)"
-Write-Output "Tenant: $($tenantId)"
+# Get Azure Tenant Domain Name
+$tenant = Get-AzureRmTenant
+
+# Display Output Parameters
+Write-Output ""
+Write-Output "====== Application Configs ======"
+Write-Output "Client ID     : $($azureAdApplication.ApplicationId)"
+Write-Output "Client Secret : $($passwordCredential.Value)"
+Write-Output "Tenant Name   : $($tenant.Directory)"
+Write-Output "Site Name     : $($siteName)"

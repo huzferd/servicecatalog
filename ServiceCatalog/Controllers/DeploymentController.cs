@@ -39,24 +39,55 @@ namespace ServiceCatalog.Controllers
         [HttpGet]
         public async Task<ActionResult> DeployView()
         {
-            Log.Info("DeployView");
+            try
+            {
+                Log.Info("DeployView");
 
-            var templates = await new TemplateController().GetTemplates();
-            ViewBag.Templates = templates.OrderBy(s => s.TemplateName).Where(t => !t.IsManageTemplate).ToList();
-            ViewBag.IsAdmin = System.Web.HttpContext.Current.User.Identity.Name == "eduadmin2@wwedudemo7.onmicrosoft.com";
-            return View();
+                var templates = await new TemplateController().GetTemplates();
+                if (templates.Count > 0)
+                {
+                    ViewBag.Templates = templates.OrderBy(s => s.TemplateName).Where(t => !t.IsManageTemplate).ToList();
+                    ViewBag.IsAdmin = System.Web.HttpContext.Current.User.Identity.Name == "eduadmin2@wwedudemo7.onmicrosoft.com"; 
+                }
+                return View();
+            }
+            catch (Exception exception)
+            {
+                ViewBag.ErrorMessage = "Error";
+                ViewBag.ErrorDetails = exception.Message;
+
+                Log.Error(exception);
+
+                return View("Error");
+            }
         }
 
         [HttpGet]
         public async Task<ActionResult> ManageView()
         {
-            Log.Info("ManageView");
+            try
+            {
+                Log.Info("ManageView");
 
-            var templates = await new TemplateController().GetTemplates();
-            ViewBag.Templates = templates.OrderBy(s => s.TemplateName).Where(t => t.IsManageTemplate).ToList();
-            ViewBag.IsAdmin = System.Web.HttpContext.Current.User.Identity.Name == "eduadmin2@wwedudemo7.onmicrosoft.com";
+                var templates = await new TemplateController().GetTemplates();
+                if (templates.Count > 0)
+                {
+                    ViewBag.Templates = templates.OrderBy(s => s.TemplateName).Where(t => t.IsManageTemplate).ToList();
+                }
 
-            return View();
+                ViewBag.IsAdmin = System.Web.HttpContext.Current.User.Identity.Name == "eduadmin2@wwedudemo7.onmicrosoft.com";
+
+                return View();
+            }
+            catch (Exception exception)
+            {
+                ViewBag.ErrorMessage = "Error";
+                ViewBag.ErrorDetails = exception.Message;
+
+                Log.Error(exception);
+
+                return View("Error");
+            }
         }
 
         public async Task<ActionResult> Deletetemplate(long templateId)
@@ -69,7 +100,7 @@ namespace ServiceCatalog.Controllers
         /// </summary>
         [Authorize]
         [HttpPost]
-        public async Task<ViewResult> Deploy()
+        public async Task<RedirectToRouteResult> Deploy()
         {
             try
             {
@@ -170,7 +201,7 @@ namespace ServiceCatalog.Controllers
                 ViewBag.OperationResultUrl = endpointUrl;
                 ViewBag.FileLogName = $"{DateTime.Today:yyyy-MM-dd}.log";
 
-                return View("DeploymentsView");
+                return RedirectToAction("DeploymentsView", "Deployments");
             }
             catch (Exception exception)
             {
@@ -179,7 +210,7 @@ namespace ServiceCatalog.Controllers
 
                 Log.Error(exception);
 
-                return View("Error");
+                return RedirectToAction("DeploymentsView", "Deployments");
             }
         }
 
