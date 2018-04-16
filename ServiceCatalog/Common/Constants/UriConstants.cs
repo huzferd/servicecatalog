@@ -48,6 +48,9 @@ namespace ServiceCatalog.Common.Constants
         // Get all the deployments for a resource group.
         public const string GetDeploymentsByResourceGroup = "/subscriptions/{0}/resourcegroups/{1}/providers/Microsoft.Resources/deployments/?api-version=2017-05-10";
 
+        // Get all the available invoices for a subscription
+        public const string GetInvoices = "/subscriptions/{0}/providers/Microsoft.Billing/invoices?api-version=2017-04-24-preview&$expand=downloadUrl";
+
         // Gets a collection of groups.
         public const string GetGraphGroups = "https://graph.windows.net/myorganization/groups?api-version=1.6";
 

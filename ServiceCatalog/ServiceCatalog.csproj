@@ -267,7 +267,9 @@
     <Compile Include="BusinessLogic\Validation\DeploymentValidation.cs" />
     <Compile Include="Common\Constants\ConfigurationConstants.cs" />
     <Compile Include="Common\DataContracts\AzureAsyncOperationStatusResponse.cs" />
+    <Compile Include="Common\Helpers\UserRoleHelper.cs" />
     <Compile Include="Context\WebAppContext.cs" />
+    <Compile Include="Controllers\BillingController.cs" />
     <Compile Include="Controllers\DeploymentsController.cs" />
     <Compile Include="Controllers\GraphGroupController.cs" />
     <Compile Include="Controllers\GraphUserController.cs" />
@@ -343,6 +345,7 @@
     <Compile Include="Models\DeployViewModel.cs" />
     <Compile Include="Models\GraphGroupsViewModel.cs" />
     <Compile Include="Models\GraphUserViewModel.cs" />
+    <Compile Include="Models\InvoicesViewModel.cs" />
     <Compile Include="Models\JsonTemplateParametersViewModel.cs" />
     <Compile Include="Models\LocationViewModel.cs" />
     <Compile Include="Models\ResourceGroupManagementViewModel.cs" />
@@ -425,6 +428,7 @@
     <Content Include="Views\GraphGroup\GetGraphGroupView.cshtml" />
     <Content Include="Views\GraphUser\GetGraphUserView.cshtml" />
     <Content Include="Views\Deployment\ManageView.cshtml" />
+    <Content Include="Views\Billing\BillingView.cshtml" />
     <None Include="Web.DEV.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

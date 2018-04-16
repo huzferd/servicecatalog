@@ -87,8 +87,7 @@ namespace ServiceCatalog.Controllers
                         }
                     }
                 }
-
-                ViewBag.Deployments = resultDeployments;
+                ViewBag.Deployments = resultDeployments.OrderByDescending(d => d.Timestamp).ToList();
                 ViewBag.FileLogName = $"{DateTime.Today:yyyy-MM-dd}.log";
             }
             catch (Exception ex)

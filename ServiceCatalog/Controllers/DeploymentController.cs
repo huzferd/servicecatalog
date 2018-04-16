@@ -386,7 +386,7 @@ namespace ServiceCatalog.Controllers
                 }
                 var param = HttpUtility.UrlEncode($"http://shibbolethwebapp.azurewebsites.net/Content/Templates/{template.TemplateName}");
                 Log.Info($"Visualize param: {param}");
-                var url = $"http://armviz.io/#/?load={param}"; //TODO check url params
+                var url = $"http://armviz.io/#/?load={param}";
                 Log.Info($"Visualize url: {url}");
                 return Redirect(url);
             }

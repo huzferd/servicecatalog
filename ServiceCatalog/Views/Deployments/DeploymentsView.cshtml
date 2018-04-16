@@ -8,7 +8,7 @@
     <h4>Deployments</h4>
     <hr />
     @Html.ValidationSummary(true)
-    
+
     @if (ViewBag.Deployments.Count > 0)
     {
         <table class="table table-bordered table-responsive table-hover">
@@ -36,15 +36,15 @@
                     }
                     @if (state == "Succeeded")
                     {
-                        <td class="successed-status">@state</td>
+                        <td id="@deployment.DeploymentName" class="successed-status">@state</td>
                     }
                     else if (state == "Failed")
                     {
-                        <td class="failed-status">@state</td>
+                        <td id="@deployment.DeploymentName" class="failed-status">@state</td>
                     }
                     else
                     {
-                        <td class="other-status">@state</td>
+                        <td id="@deployment.DeploymentName" class="other-status">@state</td>
                     }
                     <td>@deployment.Timestamp.ToString("MM/dd/yyyy hh:mm")</td>
                     <td title="@deployment.Owner">@deployment.Owner.Substring(0, deployment.Owner.IndexOf("@"))</td>
@@ -58,8 +58,8 @@
                     </td>
                     <td>
                         @Html.ActionLink("Download Log", "GetLogFile", "Deployment",
-                            new {fileName = @ViewBag.FileLogName},
-                            new {@class = "btn btn-danger"})
+                                 new { fileName = @ViewBag.FileLogName },
+                                 new { @class = "btn btn-danger" })
                     </td>
                 </tr>
                 count++;
@@ -102,6 +102,22 @@
                     $('#myModal').modal('show');
                     $('#outputsModalBody').val($.trim(event.target.children[0].innerText));
                 });
+
+                requestAsyncOpStatus();
+                function requestAsyncOpStatus() {
+                    let runnungDeployments = $('.other-status');
+                    let status = false;
+                    for (let j = 0; j < runnungDeployments.length; j++) {
+                        if (runnungDeployments[j].innerText == "Running") {
+                            status = true;
+                        }
+                    }
+
+                    if (status) {
+                        setTimeout(requestAsyncOpStatus, 15000);
+                    }
+                }
+
             })(window.jQuery);
         }
     </script>
