@@ -47,7 +47,7 @@ namespace ServiceCatalog.Controllers
                 if (templates.Count > 0)
                 {
                     ViewBag.Templates = templates.OrderBy(s => s.TemplateName).Where(t => !t.IsManageTemplate).ToList();
-                    ViewBag.IsAdmin = System.Web.HttpContext.Current.User.Identity.Name == "eduadmin2@wwedudemo7.onmicrosoft.com"; 
+                    ViewBag.IsAdmin = UserRoleHelper.IsAdmin(System.Web.HttpContext.Current.User.Identity.Name);
                 }
                 return View();
             }
@@ -75,7 +75,7 @@ namespace ServiceCatalog.Controllers
                     ViewBag.Templates = templates.OrderBy(s => s.TemplateName).Where(t => t.IsManageTemplate).ToList();
                 }
 
-                ViewBag.IsAdmin = System.Web.HttpContext.Current.User.Identity.Name == "eduadmin2@wwedudemo7.onmicrosoft.com";
+                ViewBag.IsAdmin = UserRoleHelper.IsAdmin(System.Web.HttpContext.Current.User.Identity.Name);
 
                 return View();
             }

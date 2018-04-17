@@ -14,6 +14,9 @@
     "siteName": {
       "type": "string"
     },
+    "siteAdminUserName": {
+      "type": "string"
+    },
     "applicationId": {
       "type": "string",
       "metadata": {
@@ -144,6 +147,7 @@
             "GRAPH_RESOURCE": "[variables('graphResource')]",
             "TENANT": "[parameters('tenantName')]",
             "PROJECT": "ServiceCatalog\\ServiceCatalog.csproj",
+            "ADMIN_USER": "[parameters('siteAdminUserName')]",
             "clientUrl":
               "[concat('http://', parameters('siteName'), '.azurewebsites.net')]"
           }

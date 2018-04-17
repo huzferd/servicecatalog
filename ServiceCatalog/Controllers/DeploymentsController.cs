@@ -4,6 +4,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using ServiceCatalog.Common.Helpers;
+
 namespace ServiceCatalog.Controllers
 {
     using System.Collections.Generic;
@@ -51,7 +53,7 @@ namespace ServiceCatalog.Controllers
                 }
                 
                 var email = ClaimsPrincipal.Current.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value;
-                const string adminUser = "eduadmin2@wwedudemo7.onmicrosoft.com"; //TODO: Extract it
+                var adminUser = UserRoleHelper.AdminUserName;
                 var isAdmin = email == adminUser;
   
                 var resultDeployments = new List<DeploymentViewModel>();

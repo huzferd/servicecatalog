@@ -14,6 +14,7 @@ namespace ServiceCatalog
         public const string ManagementResourceName = "MANAGEMENT_RESOURCE";
         public const string GraphResourceName = "GRAPH_RESOURCE";
         public const string TenantName = "TENANT";
+        public const string AdminUserName = "ADMIN_USER";
         public const string ConnectionStringName = "DefaultConnection";
     }
 }

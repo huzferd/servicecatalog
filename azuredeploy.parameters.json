@@ -12,6 +12,9 @@
     "siteName": {
       "value": ""
     },
+    "siteAdminUserName": {
+      "value": ""
+    },
     "applicationId": {
       "value": ""
     },

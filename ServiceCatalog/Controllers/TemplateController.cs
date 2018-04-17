@@ -4,6 +4,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using ServiceCatalog.Common.Helpers;
+
 namespace ServiceCatalog.Controllers
 {
     using System.Collections.Generic;
@@ -34,7 +36,7 @@ namespace ServiceCatalog.Controllers
             {
                 var email = ClaimsPrincipal.Current.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value;
                 var userGroups = ClaimsPrincipal.Current.FindAll("groups").Select(g => g.Value).ToList();
-                var adminUser = "eduadmin2@wwedudemo7.onmicrosoft.com";
+                var adminUser = UserRoleHelper.AdminUserName;
 
                 var graphGroups = await new GraphGroupController().GetGraphGroups();
                 var graphUsers = await new GraphUserController().GetGetGraphUsers();
