@@ -107,7 +107,7 @@ $tenant = Get-AzureRmTenant
 # Display Output Parameters
 Write-Output ""
 Write-Output "====== Application Configs ======"
-Write-Output "Client ID     : $($azureAdApplication.ApplicationId)"
-Write-Output "Client Secret : $($passwordCredential.Value)"
-Write-Output "Tenant Name   : $($tenant.Directory)"
-Write-Output "Site Name     : $($siteName)"
+Write-Output "Application Id            : $($azureAdApplication.ApplicationId)"
+Write-Output "Application Secret Key    : $($passwordCredential.Value)"
+Write-Output "Tenant Name               : $($tenant.Directory)"
+Write-Output "Site Name                 : $($siteName)"
