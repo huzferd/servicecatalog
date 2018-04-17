@@ -32,8 +32,8 @@ namespace ServiceCatalog
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             // CODE FIRST MIGRATIONS
-            var migrator = new DbMigrator(new Configuration());
-            migrator.Update();
+            //var migrator = new DbMigrator(new Configuration());
+            //migrator.Update();
         }
 
         protected void Application_Error(object sender, EventArgs e)
