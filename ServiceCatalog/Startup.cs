@@ -4,12 +4,9 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System.Data.Entity;
 using ServiceCatalog;
 using Microsoft.Owin;
 using Owin;
-using ServiceCatalog.Context;
-using ServiceCatalog.Migrations;
 
 [assembly: OwinStartup(typeof(Startup))]
 
@@ -19,7 +16,6 @@ namespace ServiceCatalog
     {
         public void Configuration(IAppBuilder app)
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<WebAppContext, Configuration>());
             ConfigureAuth(app);
         }
     }

@@ -32,54 +32,62 @@ namespace ServiceCatalog.Controllers
         /// </summary>
         public async Task<List<TemplateViewModel>> GetTemplates()
         {
-            using (var context = new WebAppContext())
+            try
             {
-                var email = ClaimsPrincipal.Current.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value;
-                var userGroups = ClaimsPrincipal.Current.FindAll("groups").Select(g => g.Value).ToList();
-                var adminUser = UserRoleHelper.AdminUserName;
-
-                var graphGroups = await new GraphGroupController().GetGraphGroups();
-                var graphUsers = await new GraphUserController().GetGetGraphUsers();
-                graphGroups.AddRange(graphUsers.Select(user => new GraphGroupsViewModel()
+                using (var context = new WebAppContext())
                 {
-                    ObjectId = user.UserPrincipalName,
-                    DisplayName = user.DisplayName
-                }));
+                    var email = ClaimsPrincipal.Current.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value;
+                    var userGroups = ClaimsPrincipal.Current.FindAll("groups").Select(g => g.Value).ToList();
+                    var adminUser = UserRoleHelper.AdminUserName;
 
-                var intersectGroups = (from gGroup in graphGroups from uGroup in userGroups where gGroup.ObjectId == uGroup select gGroup).ToList();
-                intersectGroups.Add(new GraphGroupsViewModel() { ObjectId = email, DisplayName = email });
-                intersectGroups.Add(new GraphGroupsViewModel() { ObjectId = "*", DisplayName = "Available to All" });
-                graphGroups.Add(new GraphGroupsViewModel() { ObjectId = email, DisplayName = email });
-                graphGroups.Add(new GraphGroupsViewModel() { ObjectId = "*", DisplayName = "Available to All" });
-
-                var templates = await context.TemplateJsons.ToListAsync();
-                var result = new List<TemplateViewModel>();
-                if (email == adminUser)
-                {
-                    foreach (var template in templates)
+                    var graphGroups = await new GraphGroupController().GetGraphGroups();
+                    var graphUsers = await new GraphUserController().GetGetGraphUsers();
+                    graphGroups.AddRange(graphUsers.Select(user => new GraphGroupsViewModel()
                     {
-                        var uGroups = template.TemplateUsersGroup.Split(',');
-                        template.TemplateUsersGroup = GetInlineGroups(uGroups, graphGroups);
+                        ObjectId = user.UserPrincipalName,
+                        DisplayName = user.DisplayName
+                    }));
 
-                        result.Add(template);
-                    }
-                }
-                else
-                {
-                    foreach (var template in templates)
+                    var intersectGroups = (from gGroup in graphGroups from uGroup in userGroups where gGroup.ObjectId == uGroup select gGroup).ToList();
+                    intersectGroups.Add(new GraphGroupsViewModel() { ObjectId = email, DisplayName = email });
+                    intersectGroups.Add(new GraphGroupsViewModel() { ObjectId = "*", DisplayName = "Available to All" });
+                    graphGroups.Add(new GraphGroupsViewModel() { ObjectId = email, DisplayName = email });
+                    graphGroups.Add(new GraphGroupsViewModel() { ObjectId = "*", DisplayName = "Available to All" });
+
+                    var templates = await context.TemplateJsons.ToListAsync();
+                    var result = new List<TemplateViewModel>();
+                    if (email == adminUser)
                     {
-                        var uGroups = template.TemplateUsersGroup.Split(',');
-                        var intersectResult = GetInlineGroups(uGroups, intersectGroups);
-                        if (intersectResult.Length > 0)
+                        foreach (var template in templates)
                         {
-                            var groups = GetInlineGroups(uGroups, graphGroups);
-                            template.TemplateUsersGroup = groups;
+                            var uGroups = template.TemplateUsersGroup.Split(',');
+                            template.TemplateUsersGroup = GetInlineGroups(uGroups, graphGroups);
+
                             result.Add(template);
                         }
                     }
-                }
+                    else
+                    {
+                        foreach (var template in templates)
+                        {
+                            var uGroups = template.TemplateUsersGroup.Split(',');
+                            var intersectResult = GetInlineGroups(uGroups, intersectGroups);
+                            if (intersectResult.Length > 0)
+                            {
+                                var groups = GetInlineGroups(uGroups, graphGroups);
+                                template.TemplateUsersGroup = groups;
+                                result.Add(template);
+                            }
+                        }
+                    }
 
-                return result;
+                    return result;
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+                return new List<TemplateViewModel>();
             }
         }
 
@@ -105,9 +113,18 @@ namespace ServiceCatalog.Controllers
         /// </summary>
         public async Task<TemplateViewModel> GetTemplate(long templateId)
         {
-            using (var context = new WebAppContext())
+            try
             {
-                return await context.TemplateJsons.FirstOrDefaultAsync(x => x.TemplateId == templateId);
+                using (var context = new WebAppContext())
+                {
+                    return await context.TemplateJsons.FirstOrDefaultAsync(x => x.TemplateId == templateId);
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception);
+
+                return new TemplateViewModel();
             }
         }
 
@@ -143,7 +160,7 @@ namespace ServiceCatalog.Controllers
             {
                 ViewBag.ErrorMessage = "Error";
                 ViewBag.ErrorDetails = ex.Message;
-
+                Log.Error(ex);
                 return View("Error");
             }
 
@@ -207,26 +224,48 @@ namespace ServiceCatalog.Controllers
         /// </summary>
         public async Task<ActionResult> CreateTemplateView()
         {
-            var graphGroups = await new GraphGroupController().GetGraphGroups();
-            ViewBag.Groups = graphGroups;
-            var graphUsers = await new GraphUserController().GetGetGraphUsers();
-            ViewBag.Users = graphUsers;
-
-            return View();
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> UpdateTemplateView(long templateId)
-        {
-            using (var context = new WebAppContext())
+            try
             {
-                var template = context.TemplateJsons.FirstOrDefaultAsync(x => x.TemplateId == templateId);
                 var graphGroups = await new GraphGroupController().GetGraphGroups();
                 ViewBag.Groups = graphGroups;
                 var graphUsers = await new GraphUserController().GetGetGraphUsers();
                 ViewBag.Users = graphUsers;
 
-                return View(template.Result);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Error";
+                ViewBag.ErrorDetails = ex.Message;
+                Log.Error(ex);
+
+                return View("Error");
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> UpdateTemplateView(long templateId)
+        {
+            try
+            {
+                using (var context = new WebAppContext())
+                {
+                    var template = context.TemplateJsons.FirstOrDefaultAsync(x => x.TemplateId == templateId);
+                    var graphGroups = await new GraphGroupController().GetGraphGroups();
+                    ViewBag.Groups = graphGroups;
+                    var graphUsers = await new GraphUserController().GetGetGraphUsers();
+                    ViewBag.Users = graphUsers;
+
+                    return View(template.Result);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Error";
+                ViewBag.ErrorDetails = ex.Message;
+                Log.Error(ex);
+
+                return View("Error");
             }
         }
     }
