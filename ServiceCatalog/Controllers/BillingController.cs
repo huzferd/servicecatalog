@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
-using ServiceCatalog.Common.Helpers;
+﻿// -----------------------------------------------------------------------
+// <copyright file="BillingController.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
 
 namespace ServiceCatalog.Controllers
 {
@@ -10,6 +13,8 @@ namespace ServiceCatalog.Controllers
     using Common.Constants;
     using Models;
     using System;
+    using System.Collections.Generic;
+    using Common.Helpers;
 
     public class BillingController : BaseController
     {

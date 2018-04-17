@@ -1,4 +1,10 @@
-﻿namespace ServiceCatalog.Models
+﻿// -----------------------------------------------------------------------
+// <copyright file="InvoicesViewModel.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace ServiceCatalog.Models
 {
     using System;
     
