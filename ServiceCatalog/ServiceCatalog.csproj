@@ -269,7 +269,6 @@
     <Compile Include="Common\DataContracts\AzureAsyncOperationStatusResponse.cs" />
     <Compile Include="Common\Helpers\UserRoleHelper.cs" />
     <Compile Include="Context\WebAppContext.cs" />
-    <Compile Include="Controllers\BillingController.cs" />
     <Compile Include="Controllers\DeploymentsController.cs" />
     <Compile Include="Controllers\GraphGroupController.cs" />
     <Compile Include="Controllers\GraphUserController.cs" />
@@ -381,6 +380,8 @@
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\servicecatalogapp - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\servicecatalogapp - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -422,7 +423,6 @@
     <Content Include="Views\GraphGroup\GetGraphGroupView.cshtml" />
     <Content Include="Views\GraphUser\GetGraphUserView.cshtml" />
     <Content Include="Views\Deployment\ManageView.cshtml" />
-    <Content Include="Views\Billing\BillingView.cshtml" />
     <None Include="Web.DEV.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -432,7 +432,6 @@
     <Folder Include="Deployments\" />
     <Folder Include="Filters\" />
     <Folder Include="Logs\Archive\" />
-    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Templates\" />
     <Folder Include="Views\Location\" />
     <Folder Include="Views\Subscription\" />

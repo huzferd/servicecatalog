@@ -6,6 +6,7 @@
 
 using System.Net;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Http;
 using ServiceCatalog.Common.DataContracts;
 using ServiceCatalog.Infrastructure.Client;
@@ -287,9 +288,7 @@ namespace ServiceCatalog.Controllers
         }
 
         [HttpGet, Authorize]
-        public async Task<JsonResult> GetAzureAsyncOperationStatus(
-            [FromUri] string url
-        )
+        public async Task<JsonResult> GetAzureAsyncOperationStatus([FromUri] string url)
         {
             Log.Info($"Requesting status for Azure async operation: {url}");
             IRestApiClient restApiClient = new RestApiClient();
@@ -308,9 +307,7 @@ namespace ServiceCatalog.Controllers
         }
 
         [HttpGet, Authorize]
-        public async Task<JsonResult> GetDeployOutputParameters(
-            [FromUri] string url
-        )
+        public async Task<JsonResult> GetDeployOutputParameters([FromUri] string url)
         {
             Log.Info($"Receiving output parameters from deployment: {url}");
 
@@ -377,17 +374,16 @@ namespace ServiceCatalog.Controllers
             {
                 Log.Info($"Visualize templateId: {templateId}");
                 var template = await new TemplateController().GetTemplate(templateId);
-                Log.Info($"Visualize TemplateJson: {template.TemplateJson}");
                 var pathToFile = Server.MapPath($"~/Content/Templates/{template.TemplateName}");
-                Log.Info($"Visualize pathToFile: {pathToFile}");
                 using (StreamWriter fWriter = new StreamWriter(pathToFile, false))
                 {
                     await fWriter.WriteAsync(template.TemplateJson);
                 }
-                var param = HttpUtility.UrlEncode($"http://shibbolethwebapp.azurewebsites.net/Content/Templates/{template.TemplateName}");
-                Log.Info($"Visualize param: {param}");
-                var url = $"http://armviz.io/#/?load={param}";
+                var clientUrl = WebConfigurationManager.AppSettings[ConfigurationConstants.ClientUrl];
+                var param = HttpUtility.UrlEncode($"{clientUrl}/Content/Templates/{template.TemplateName}");
+                var url = string.Format(UriConstants.ArmVizualizeUrl, param);
                 Log.Info($"Visualize url: {url}");
+
                 return Redirect(url);
             }
             catch (Exception exception)

@@ -57,6 +57,9 @@ namespace ServiceCatalog.Common.Constants
         // Gets a collection of users.
         public const string GetGraphUsers = "https://graph.windows.net/myorganization/users?api-version=1.6";
 
+        // ARM Vizualize site Url
+        public const string ArmVizualizeUrl = "http://armviz.io/#/?load={0}";
+
         // Content type
         public static string JsonContentType = "application/json";
     }
