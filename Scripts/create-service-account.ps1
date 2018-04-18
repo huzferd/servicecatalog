@@ -13,7 +13,9 @@ $replyUrls = @($url, $replyUrl)
 $endDate = (Get-Date).AddYears(4)
 
 # Login to your Azure Subscription
-Login-AzureRMAccount
+if ([string]::IsNullOrEmpty($(Get-AzureRmContext).Account)) {
+    Login-AzureRmAccount
+}
 Set-AzureRMContext -SubscriptionId $subscriptionId -TenantId $tenantId
 
 # Create an Octopus Deploy Application in Active Directory1.1
@@ -25,14 +27,15 @@ $azureAdApplication = New-AzureRmADApplication -DisplayName $siteName -HomePage 
 Write-Output "Creating AAD service principal..."
 New-AzureRmADServicePrincipal -ApplicationId $azureAdApplication.ApplicationId
 
-# Sleep, to Ensure the Service Principal is Actually Created
-Write-Output "Sleeping for 10s to give the service principal a chance to finish creating..."
-Start-Sleep -s 10
-
 # Assign the Service Principal the Contributor Role to the Subscription.
 Write-Output "Assigning the Contributor role to the service principal..."
-Connect-AzureAD
-New-AzureRmRoleAssignment -RoleDefinitionName Contributor -ServicePrincipalName $azureAdApplication.ApplicationId
+Try {
+    New-AzureRmRoleAssignment -RoleDefinitionName Contributor -ServicePrincipalName $azureAdApplication.ApplicationId -ErrorAction Stop
+}
+Catch {
+    Connect-AzureAD
+    New-AzureRmRoleAssignment -RoleDefinitionName Contributor -ServicePrincipalName $azureAdApplication.ApplicationId
+}
 
 # Assign delegated permissions
 Write-Output "Assigning the delegated permissions..."
