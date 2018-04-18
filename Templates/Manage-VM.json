@@ -1,0 +1,109 @@
+{
+  "$schema":
+    "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "allowedValues": [
+        "westeurope",
+        "southeastasia",
+        "eastus2",
+        "southcentralus",
+        "japaneast",
+        "southeastasia",
+        "southcentralus",
+        "northeurope",
+        "canadacentral",
+        "australiasoutheast",
+        "centralindia",
+        "japaneast"
+      ],
+      "metadata": {
+        "description":
+          "Specify the Azure Region for your Automation Account"
+      }
+    },
+    "vmName": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string",
+      "allowedValues": ["Start", "Stop", "Reboot"]
+    }
+  },
+  "variables": {
+    "location": "[parameters('location')]",
+    "jobId": "[guid(resourceGroup().id, deployment().name)]",
+    "accountName": "automation-account",
+    "runbookName": "Manage-VM",
+    "scriptUri":
+      "https://gist.githubusercontent.com/huzferd/77852f8948df7ec4d19d9cb4410eccec/raw/88314838c2958d269bb0ac5618bbded183d7bdb0/Manage-VM.ps1",
+    "runbookDescription": "Manage VMs runbook",
+    "sku": "Basic"
+  },
+  "resources": [
+    {
+      "name": "[variables('accountName')]",
+      "type": "Microsoft.Automation/automationAccounts",
+      "apiVersion": "2015-01-01-preview",
+      "location": "[variables('location')]",
+      "properties": {
+        "sku": {
+          "name": "[variables('sku')]"
+        }
+      },
+      "resources": [
+        {
+          "type": "runbooks",
+          "name": "[variables('runbookName')]",
+          "apiVersion": "2015-01-01-preview",
+          "location": "[variables('location')]",
+          "tags": {},
+          "properties": {
+            "runbookType": "PowerShell",
+            "logProgress": "true",
+            "logVerbose": "true",
+            "description": "[variables('runbookDescription')]",
+            "publishContentLink": {
+              "uri": "[variables('scriptUri')]",
+              "version": "1.0.0.0"
+            }
+          },
+          "dependsOn": [
+            "[concat('Microsoft.Automation/automationAccounts/', variables('accountName'))]"
+          ]
+        },
+        {
+          "name": "[variables('jobId')]",
+          "type": "jobs",
+          "apiVersion": "2015-01-01-preview",
+          "location": "[variables('location')]",
+          "dependsOn": [
+            "[concat('Microsoft.Automation/automationAccounts/', variables('accountName'))]",
+            "[concat('Microsoft.Automation/automationAccounts/', variables('accountName'), '/runbooks/',variables('runbookName'))]"
+          ],
+          "tags": {
+            "key": "value"
+          },
+          "properties": {
+            "runbook": {
+              "name": "[variables('runbookName')]"
+            },
+            "parameters": {
+              "Action": "[parameters('action')]",
+              "VMName": "[parameters('vmName')]"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "outputs": {
+    "result": {
+      "value":
+        "[concat('Microsoft.Automation/automationAccounts/', variables('accountName'), '/jobs/',variables('jobId'))]",
+      "type": "string"
+    }
+  }
+}
