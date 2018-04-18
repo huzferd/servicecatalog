@@ -381,12 +381,6 @@
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\PublishProfiles\servicecatalog94a0 - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\servicecatalog94a0 - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\servicecatalogdeeb - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\servicecatalogdeeb - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\ShibbolethWebApp - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\WebAppDataScience - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -438,6 +432,7 @@
     <Folder Include="Deployments\" />
     <Folder Include="Filters\" />
     <Folder Include="Logs\Archive\" />
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Templates\" />
     <Folder Include="Views\Location\" />
     <Folder Include="Views\Subscription\" />
