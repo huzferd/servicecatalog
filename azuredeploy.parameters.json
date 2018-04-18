@@ -24,14 +24,14 @@
     "tenantName": {
       "value": ""
     },
+    "skuName": {
+      "value": "S1"
+    },
     "sqlAdministratorLogin": {
       "value": ""
     },
     "sqlAdministratorLoginPassword": {
       "value": ""
-    },
-    "skuName": {
-      "value": "S1"
     }
   }
 }

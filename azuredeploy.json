@@ -34,12 +34,6 @@
     "tenantName": {
       "type": "string"
     },
-    "sqlAdministratorLogin": {
-      "type": "string"
-    },
-    "sqlAdministratorLoginPassword": {
-      "type": "securestring"
-    },
     "skuName": {
       "type": "string",
       "defaultValue": "S1",
@@ -48,6 +42,12 @@
         "description":
           "Describes plan's pricing tier and instance size. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
       }
+    },
+    "sqlAdministratorLogin": {
+      "type": "string"
+    },
+    "sqlAdministratorLoginPassword": {
+      "type": "securestring"
     }
   },
   "variables": {

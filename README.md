@@ -46,8 +46,13 @@ Install-module AzureADPreview
 ## Create Service Account  
 
 Run PowerShell as administrator and execute the following command:
-```
-create-service-account.ps1 -subscriptionId "C57D7401-4409-4D74-A6DD-346DC1C7F3A0" -tenantId "ADFB12FE-F2F4-4820-8CF0-49E5AF4CC95C" -siteName "YOUR_SITE_NAME" -password "SERVICE_ACCOUNT_PASSWORD"
+```powershell
+.\create-service-account.ps1 -subscriptionId "C57D7401-4409-4D74-A6DD-346DC1C7F3A0" `
+    -tenantId "ADFB12FE-F2F4-4820-8CF0-49E5AF4CC95C" `
+    -siteName "YOUR_SITE_NAME" `
+    -sitePassword "SERVICE_ACCOUNT_PASSWORD" `
+    -azureAccountName "YOUR_AZURE_ACCOUNT_NAME" `
+    -azureAccountPassword "YOUR_AZURE_ACCOUNT_PASSWORD"
 ```
 
 [Getting your Azure Subscription GUID](https://blogs.msdn.microsoft.com/mschray/2016/03/18/getting-your-azure-subscription-guid-new-portal/)  
