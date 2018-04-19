@@ -45,15 +45,11 @@ namespace ServiceCatalog.Controllers
                         var jobOutputClient = new RestApiClient();
                         var jobOutputUrl = string.Format(UriConstants.GetJobOutput, job.Id);
                         var jobOutput = await jobOutputClient.CallGetText(jobOutputUrl, token);
-                        Log.Info(jobOutput);
                         var newJob = job;
                         newJob.Outputs = jobOutput;
                         jobList.Add(newJob);
                     }
                 }
-
-                Log.Info(TemplateHelper.ToJson(jobList));
-
                 ViewBag.Jobs = jobList;
 
                 return View();

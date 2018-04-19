@@ -10,7 +10,7 @@ namespace ServiceCatalog
     {
         public const string ClientIdName = "CLIENT_ID";
         public const string ClientSecretName = "CLIENT_SECRET";
-        public const string ClientUrl = "siteUrl";
+        public const string ClientUrl = "clientUrl";
         public const string AadInstanceName = "AAD_INSTANCE";
         public const string ManagementResourceName = "MANAGEMENT_RESOURCE";
         public const string GraphResourceName = "GRAPH_RESOURCE";

@@ -120,7 +120,12 @@
         "name": "[parameters('siteName')]",
         "serverFarmId":
           "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
-        "hostingEnvironment": ""
+        "hostingEnvironment": "",
+        "cors": {
+          "allowedOrigins": [
+            "*"
+          ]
+        }
       },
       "location": "[resourceGroup().location]",
       "tags": {
