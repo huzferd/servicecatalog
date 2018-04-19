@@ -39,7 +39,12 @@
                     {
                         <td class="other-status">@state</td>
                     }
-                    <td>@job.Properties.StartTime.ToString("MM/dd/yyyy hh:mm")</td>
+                    <td>
+                        @if (job.Properties.StartTime != null)
+                        {
+                            @job.Properties.StartTime.ToString("MM/dd/yyyy hh:mm") 
+                        }
+                    </td>
                     <td>
                         @if (job.Properties.EndTime != null)
                         {
