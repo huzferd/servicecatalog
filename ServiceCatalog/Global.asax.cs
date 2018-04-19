@@ -21,6 +21,9 @@ namespace ServiceCatalog
 
         public MvcApplication()
         {
+            // CODE FIRST MIGRATIONS
+            var migrator = new DbMigrator(new Configuration());
+            migrator.Update();
             Log = LogManager.GetLogger(GetType().FullName);
         }
 

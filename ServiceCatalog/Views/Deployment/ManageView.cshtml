@@ -51,17 +51,20 @@
                         <td>
                             <div class="col-md-3">
                                 @Html.ActionLink("Deploy", "ParametersView", "Parameters",
-                                                    new { templateId = template.TemplateId },
+                                                    new { templateId = template.TemplateId, isManage = true },
                                                     new { @class = "btn btn-primary" })
                             </div>
                         </td>
                         @if (ViewBag.IsAdmin)
                         {
                             <td>
-                                <div class="col-md-3">
+                                <div class="btn-group">
                                     @Html.ActionLink("Edit", "UpdateTemplateView", "Template",
-                                        new {templateId = template.TemplateId},
-                                        new {@class = "btn btn-warning"})
+                                        new { templateId = template.TemplateId },
+                                        new { @class = "btn btn-warning" })
+                                    @Html.ActionLink("Delete", "DeleteTemplate",
+                                        new { controller = "Deployment", templateId = template.TemplateId },
+                                        new { @class = "btn btn-danger", onclick = "return confirm('Are you sure you wish to delete this article?');" })
                                 </div>
                             </td>
                         }

@@ -202,7 +202,11 @@ namespace ServiceCatalog.Controllers
                 ViewBag.OperationResultUrl = endpointUrl;
                 ViewBag.FileLogName = $"{DateTime.Today:yyyy-MM-dd}.log";
 
-                return RedirectToAction("DeploymentsView", "Deployments");
+                var isManageRequest = Request.Form["isManage"];
+
+                var isManage = bool.Parse(isManageRequest);
+
+                return isManage ? RedirectToAction("RunBooksView", "RunBooks") : RedirectToAction("DeploymentsView", "Deployments");
             }
             catch (Exception exception)
             {

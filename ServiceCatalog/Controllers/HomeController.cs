@@ -4,6 +4,9 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using System.Data.Entity.Migrations;
+using ServiceCatalog.Migrations;
+
 namespace ServiceCatalog.Controllers
 {
     using System.Web.Mvc;
@@ -14,6 +17,16 @@ namespace ServiceCatalog.Controllers
 
         public ActionResult Index()
         {
+            var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+            if (config.AppSettings.Settings["needCodeFirstMegration"] == null)
+            {
+                config.AppSettings.Settings.Add("needCodeFirstMegration", "false");
+                // CODE FIRST MIGRATIONS
+                var migrator = new DbMigrator(new Configuration());
+                migrator.Update();
+                config.Save();
+            }
+
             return RedirectToAction("../Deployment/DeployView");
         }
     }
