@@ -1,4 +1,10 @@
-﻿namespace ServiceCatalog.Models
+﻿// -----------------------------------------------------------------------
+// <copyright file="Job.cs" company="Microsoft">
+//      Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace ServiceCatalog.Models
 {
     using System;
 
