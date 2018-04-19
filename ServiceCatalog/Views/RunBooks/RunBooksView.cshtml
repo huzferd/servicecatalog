@@ -40,7 +40,12 @@
                         <td class="other-status">@state</td>
                     }
                     <td>@job.Properties.StartTime.ToString("MM/dd/yyyy hh:mm")</td>
-                    <td>@job.Properties.EndTime.ToString("MM/dd/yyyy hh:mm")</td>
+                    <td>
+                        @if (job.Properties.EndTime != null)
+                        {
+                            @job.Properties.EndTime.ToString("MM/dd/yyyy hh:mm")
+                        }
+                    </td>
                     <td>
                         <a class="btn btn-primary show-button" data-toggle="modal" data-target="#outputsModal">
                             Show Outputs
