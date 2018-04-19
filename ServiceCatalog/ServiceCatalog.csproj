@@ -274,6 +274,7 @@
     <Compile Include="Controllers\GraphUserController.cs" />
     <Compile Include="Controllers\LocationController.cs" />
     <Compile Include="Controllers\ParametersController.cs" />
+    <Compile Include="Controllers\RunBooksController.cs" />
     <Compile Include="Controllers\SubscriptionController.cs" />
     <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Infrastructure\IDeploymentValidation.cs" />
@@ -339,12 +340,14 @@
       <DependentUpon>201804101215500_DeployManageTemplate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AutomationAccount.cs" />
     <Compile Include="Models\CompliteStateViewModel.cs" />
     <Compile Include="Models\DeploymentViewModel.cs" />
     <Compile Include="Models\DeployViewModel.cs" />
     <Compile Include="Models\GraphGroupsViewModel.cs" />
     <Compile Include="Models\GraphUserViewModel.cs" />
     <Compile Include="Models\InvoicesViewModel.cs" />
+    <Compile Include="Models\Job.cs" />
     <Compile Include="Models\JsonTemplateParametersViewModel.cs" />
     <Compile Include="Models\LocationViewModel.cs" />
     <Compile Include="Models\ResourceGroupManagementViewModel.cs" />
@@ -380,6 +383,8 @@
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\serviceApp23 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\serviceApp23 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\servicecatalogapp - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\servicecatalogapp - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -423,6 +428,7 @@
     <Content Include="Views\GraphGroup\GetGraphGroupView.cshtml" />
     <Content Include="Views\GraphUser\GetGraphUserView.cshtml" />
     <Content Include="Views\Deployment\ManageView.cshtml" />
+    <Content Include="Views\RunBooks\RunBooksView.cshtml" />
     <None Include="Web.DEV.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

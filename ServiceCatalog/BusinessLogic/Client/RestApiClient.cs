@@ -125,6 +125,22 @@ namespace ServiceCatalog.BusinessLogic.Client
             throw new NotImplementedException();
         }
 
+        public async Task<string> CallGetText(string endpointUrl, string accessToken)
+        {
+            this.PrepareHttpClient(accessToken);
+            var response = await this.httpClient.GetAsync(endpointUrl);
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            if (response.StatusCode == HttpStatusCode.OK
+                || response.StatusCode == HttpStatusCode.Created
+                || response.StatusCode == HttpStatusCode.Accepted)
+            {
+                return responseString;
+            }
+
+            return string.Empty;
+        }
+
         private void PrepareHttpClient(string accessToken)
         {
             this.httpClient.BaseAddress = new Uri("https://management.azure.com");

@@ -53,9 +53,6 @@ namespace ServiceCatalog.Controllers
                 }
                 
                 var email = ClaimsPrincipal.Current.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value;
-                var adminUser = UserRoleHelper.AdminUserName;
-                var isAdmin = email == adminUser;
-  
                 var resultDeployments = new List<DeploymentViewModel>();
                 using (WebAppContext context = new WebAppContext())
                 {
@@ -69,7 +66,7 @@ namespace ServiceCatalog.Controllers
                                 continue;
                             }
 
-                            if (isAdmin || email == localDeployment.Owner)
+                            if (UserRoleHelper.IsAdmin(email) || email == localDeployment.Owner)
                             {
                                 var newDeployment = new DeploymentViewModel()
                                 {

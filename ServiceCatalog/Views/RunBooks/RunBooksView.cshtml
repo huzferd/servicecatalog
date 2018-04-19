@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "RunBooks";
+}
+
+<div>
+    <h4>RunBooks</h4>
+    <hr />
+    @Html.ValidationSummary(true)
+
+    @if (ViewBag.Jobs.Count > 0)
+    {
+        <table class="table table-bordered table-responsive table-hover">
+            <tr>
+                <th>RunBook Name</th>
+                <th>JobId</th>
+                <th>Status</th>
+                <th>StartTime</th>
+                <th>EndTime</th>
+                <th>Outputs</th>
+            </tr>
+            @{ int count = 0; }
+            @foreach (var job in ViewBag.Jobs)
+            {
+                <tr>
+                    <td>@job.Properties.RunBook.Name</td>
+                    <td>@job.Properties.JobId</td>
+                    @{
+                        var state = job.Properties.Status;
+                    }
+                    @if (state == "Completed")
+                    {
+                        <td class="successed-status">@state</td>
+                    }
+                    else if (state == "Failed")
+                    {
+                        <td class="failed-status">@state</td>
+                    }
+                    else
+                    {
+                        <td class="other-status">@state</td>
+                    }
+                    <td>@job.Properties.StartTime.ToString("MM/dd/yyyy hh:mm")</td>
+                    <td>@job.Properties.EndTime.ToString("MM/dd/yyyy hh:mm")</td>
+                    <td>
+                        <a class="btn btn-primary show-button" data-toggle="modal" data-target="#outputsModal">
+                            Show Outputs
+                            <p id="output-@count" style="display: none;">
+                                @job.Outputs
+                            </p>
+                        </a>
+                    </td>
+                </tr>
+                count++;
+            }
+        </table>
+    }
+    else
+    {
+        <p>No RunBooks to display</p>
+    }
+
+    <div class="modal fade" id="outputsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 500px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Outputs</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea readonly id="outputsModalBody" rows="10" style="width: 100%">
+                    </textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        if (!window.jQuery) {
+            console.error("jQuery is not defined");
+        } else {
+            (function ($) {
+
+                $('.show-button').click(function (event) {
+                    $('#myModal').modal('show');
+                    $('#outputsModalBody').val($.trim(event.target.children[0].innerText));
+                });
+            })(window.jQuery);
+        }
+    </script>
+}

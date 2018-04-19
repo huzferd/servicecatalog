@@ -51,6 +51,15 @@ namespace ServiceCatalog.Common.Constants
         // Get all the available invoices for a subscription
         public const string GetInvoices = "/subscriptions/{0}/providers/Microsoft.Billing/invoices?api-version=2017-04-24-preview&$expand=downloadUrl";
 
+        // Get all automation accounts
+        public const string GetAutomationAccounts = "/subscriptions/{0}/providers/Microsoft.Automation/automationAccounts?api-version=2015-10-31";
+        
+        // Get all jobs by automation accounts
+        public const string GetJobs = "{0}/jobs?api-version=2015-10-31";
+
+        // Get Job output
+        public const string GetJobOutput = "{0}/output?api-version=2015-10-31";
+
         // Gets a collection of groups.
         public const string GetGraphGroups = "https://graph.windows.net/myorganization/groups?api-version=1.6";
 

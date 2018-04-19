@@ -40,6 +40,7 @@ catch {
 Write-Output "Creating AAD service principal..."
 try {
     New-AzureRmADServicePrincipal -ApplicationId $azureAdApplication.ApplicationId -ErrorAction stop
+    Start-Sleep -s 10 
 }
 catch {
     throw $_
