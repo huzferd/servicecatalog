@@ -60,7 +60,9 @@
     "tier": "Standard",
     "aadInstance": "https://login.microsoftonline.com/{0}",
     "manageResource": "https://management.azure.com/",
-    "graphResource": "https://graph.windows.net"
+    "graphResource": "https://graph.windows.net",
+    "clientUrl":
+      "[concat('https://', parameters('siteName'), '.azurewebsites.net')]"
   },
   "resources": [
     {
@@ -148,8 +150,7 @@
             "TENANT": "[parameters('tenantName')]",
             "PROJECT": "ServiceCatalog\\ServiceCatalog.csproj",
             "ADMIN_USER": "[parameters('siteAdminUserName')]",
-            "clientUrl":
-              "[concat('http://', parameters('siteName'), '.azurewebsites.net')]"
+            "clientUrl": "[variables('clientUrl')]"
           }
         },
         {
