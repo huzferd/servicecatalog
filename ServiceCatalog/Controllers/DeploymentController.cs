@@ -202,11 +202,9 @@ namespace ServiceCatalog.Controllers
                 ViewBag.OperationResultUrl = endpointUrl;
                 ViewBag.FileLogName = $"{DateTime.Today:yyyy-MM-dd}.log";
 
-                var isManageRequest = Request.Form["isManage"];
-
-                var isManage = bool.Parse(isManageRequest);
-
-                return isManage ? RedirectToAction("RunBooksView", "RunBooks") : RedirectToAction("DeploymentsView", "Deployments");
+                return template.IsManageTemplate
+                    ? RedirectToAction("RunBooksView", "RunBooks")
+                    : RedirectToAction("DeploymentsView", "Deployments");
             }
             catch (Exception exception)
             {
@@ -397,7 +395,7 @@ namespace ServiceCatalog.Controllers
 
                 Log.Error(exception);
 
-                return Redirect("http://armviz.io");
+                return Redirect(UriConstants.ArmVizualizeUrl);
             }
         }
     }
