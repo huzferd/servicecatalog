@@ -41,8 +41,8 @@ namespace ServiceCatalog.Controllers
 
         private async Task<JsonTemplateParametersViewModel> GetJsonTemplateParametersViewModel(int templateId)
         {
-            var parameters = await GetParametersFromTemplate(templateId);
-
+            var template = await GetTemplate(templateId);
+            var parameters = GetParametersFromTemplate(template.TemplateJson);
             var subscriptions = await new SubscriptionController().GetSubscriptions();
 
             if (subscriptions == null)
@@ -55,10 +55,11 @@ namespace ServiceCatalog.Controllers
                 TemplateId = templateId,
                 Parameters = parameters,
                 Subscriptions = subscriptions,
+                IsManage = template.IsManageTemplate
             };
         }
 
-        private async Task<List<JsonTemplateParameter>> GetParametersFromTemplate(int templateId)
+        private async Task<TemplateViewModel> GetTemplate(int templateId)
         {
             TemplateViewModel template;
             using (var context = new WebAppContext())
@@ -70,10 +71,15 @@ namespace ServiceCatalog.Controllers
                 throw new ServiceCatalogException("Template with specified ID couldn't be found.");
             }
 
+            return template;
+        }
+
+        private List<JsonTemplateParameter> GetParametersFromTemplate(string templateJson)
+        {
             List<JsonTemplateParameter> parameters;
             try
             {
-                parameters = TemplateHelper.ReadParametersFromTemplateJson(template.TemplateJson);
+                parameters = TemplateHelper.ReadParametersFromTemplateJson(templateJson);
             }
             catch (Exception ex)
             {

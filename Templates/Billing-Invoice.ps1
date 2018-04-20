@@ -1,3 +1,9 @@
+param (
+    [Parameter(Mandatory = $true)]
+    [string]
+    $billingPeriod
+)
+
 $connectionName = "AzureRunAsConnection"
 try {
     $servicePrincipalConnection = Get-AutomationConnection -Name $connectionName
@@ -19,10 +25,19 @@ catch {
         throw $_.Exception
     }
 }
+$invoices = @{}
+switch ($billingPeriod) {
+    "Latest" {
+        $invoices = Get-AzureRmBillingInvoice -Latest
+    }
+    "All" {
+        $invoices = Get-AzureRmBillingInvoice -GenerateDownloadUrl
+    }
+    Default {
+        Write-Error "$billingPeriod - incorrect period"
+    }
+}
 
-$invoices = Get-AzureRmBillingInvoice -GenerateDownloadUrl
-
-Write-Host $invoices
 foreach ($invoice in $invoices) {
-    Write-Host $invoice.DownloadUrl $invoice.Name
+    Write-Host $invoice.Name | $invoice.DownloadUrl 
 }

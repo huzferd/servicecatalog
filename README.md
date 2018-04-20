@@ -45,6 +45,11 @@ Install-module AzureADPreview
 
 ## Create Service Account  
 
+To display help information, run this command:
+```powershell
+Get-Help .\create-service-account.ps1
+```
+
 Run PowerShell as administrator and execute the following command:
 ```powershell
 .\create-service-account.ps1 -subscriptionId "C57D7401-4409-4D74-A6DD-346DC1C7F3A0" `

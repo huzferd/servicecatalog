@@ -10,7 +10,7 @@ param (
 
 $connectionName = "AzureRunAsConnection"
 try {
-    $servicePrincipalConnection = Get-AutomationConnection -Name $connectionName
+    $servicePrincipalConnection = Get-AutomationConnection -AutomationAccountName "automation-account" -Name $connectionName
 
     "Logging in to Azure..."
     Add-AzureRmAccount `

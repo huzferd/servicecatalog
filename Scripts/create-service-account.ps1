@@ -1,3 +1,30 @@
+<#
+
+.SYNOPSIS
+This is a PowerShell script to create an Azure service principal
+
+.DESCRIPTION
+You can use the PowerShell script to create an Azure Active Directory Application and Service Principal
+
+.EXAMPLE
+.\create-service-account.ps1 `
+    -subscriptionId "C57D7401-4409-4D74-A6DD-346DC1C7F3A0" `
+    -tenantId "ADFB12FE-F2F4-4820-8CF0-49E5AF4CC95C" `
+    -siteName "YOUR_SITE_NAME" `
+    -sitePassword "SERVICE_ACCOUNT_PASSWORD" `
+    -azureAccountName "YOUR_AZURE_ACCOUNT_NAME" `
+    -azureAccountPassword "YOUR_AZURE_ACCOUNT_PASSWORD"
+
+.NOTES
+Run PowerShell script as Administrator
+
+.LINK
+https://github.com/huzferd/servicecatalog
+
+#>
+
+#Requires -RunAsAdministrator
+
 param(
     [string] [Parameter(Mandatory = $true)]$subscriptionId,
     [string] [Parameter(Mandatory = $true)]$tenantId,

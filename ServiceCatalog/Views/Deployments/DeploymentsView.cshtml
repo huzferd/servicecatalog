@@ -1,6 +1,4 @@
-﻿@using System.Security.Claims
-
-@{
+﻿@{
     ViewBag.Title = "Deployments";
 }
 
@@ -61,8 +59,8 @@
                     </td>
                     <td>
                         @Html.ActionLink("Download Log", "GetLogFile", "Deployment",
-                                 new { fileName = @ViewBag.FileLogName },
-                                 new { @class = "btn btn-danger" })
+                                      new { fileName = @ViewBag.FileLogName },
+                                      new { @class = "btn btn-danger" })
                     </td>
                 </tr>
                 count++;
@@ -100,27 +98,10 @@
             console.error("jQuery is not defined");
         } else {
             (function ($) {
-
                 $('.show-button').click(function (event) {
                     $('#myModal').modal('show');
                     $('#outputsModalBody').val($.trim(event.target.children[0].innerText));
                 });
-
-                requestAsyncOpStatus();
-                function requestAsyncOpStatus() {
-                    let runnungDeployments = $('.other-status');
-                    let status = false;
-                    for (let j = 0; j < runnungDeployments.length; j++) {
-                        if (runnungDeployments[j].innerText == "Running") {
-                            status = true;
-                        }
-                    }
-
-                    if (status) {
-                        setTimeout(requestAsyncOpStatus, 15000);
-                    }
-                }
-
             })(window.jQuery);
         }
     </script>

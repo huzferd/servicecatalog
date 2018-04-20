@@ -3,34 +3,19 @@
     "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "location": {
+    "billingPeriod": {
       "type": "string",
-      "allowedValues": [
-        "westeurope",
-        "southeastasia",
-        "eastus2",
-        "southcentralus",
-        "japaneast",
-        "southeastasia",
-        "southcentralus",
-        "northeurope",
-        "canadacentral",
-        "australiasoutheast",
-        "centralindia",
-        "japaneast"
-      ],
-      "metadata": {
-        "description": "Specify the Azure Region for your Automation Account"
-      }
+      "defaultValue": "Latest",
+      "allowedValues": ["Latest", "All"]
     }
   },
   "variables": {
-    "location": "[parameters('location')]",
+    "location": "eastus2",
     "jobId": "[guid(resourceGroup().id, deployment().name)]",
-    "accountName": "automation-account",
+    "accountName": "service-catalog-automation-account",
     "runbookName": "Billing-Invoice",
     "scriptUri":
-      "https://gist.githubusercontent.com/huzferd/2bbfb55a6b779bd59813dbd5a99629cb/raw/40c296941a4e14c6fdbcdb055d436dac5dbf6be3/Billing-Invoice.ps1",
+      "https://raw.githubusercontent.com/huzferd/servicecatalog/master/Templates/Billing-Invoice.ps1",
     "runbookDescription": "Billing-Invoice runbook",
     "sku": "Basic"
   },
@@ -82,7 +67,9 @@
             "runbook": {
               "name": "[variables('runbookName')]"
             },
-            "parameters": {}
+            "parameters": {
+              "billingPeriod": "[parameters('billingPeriod')]"
+            }
           }
         }
       ]

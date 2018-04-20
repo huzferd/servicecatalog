@@ -116,14 +116,6 @@ namespace ServiceCatalog.Controllers
                 Log.Info($"Template ID: {templateId}");
 
                 var subscriptionId = Request.Form["SelectedSubscriptionId"];
-                var resourceGroupName = Request.Form["SelectedResourceGroupName"];
-                if (string.IsNullOrWhiteSpace(subscriptionId) || string.IsNullOrWhiteSpace(resourceGroupName))
-                {
-                    throw new ServiceCatalogException("You should specify both Subscription and Resource Group.");
-                }
-
-                Log.Info($"Subscription ID: {subscriptionId}");
-                Log.Info($"Resource group name: {resourceGroupName}");
 
                 var location = "East US 2";
 
@@ -146,6 +138,17 @@ namespace ServiceCatalog.Controllers
 
                 var deploymentsId = Guid.NewGuid();
                 Log.Info("Start deployments - {0}", deploymentsId);
+
+                var resourceGroupName = template.IsManageTemplate
+                    ? "service-catalog-automation-account"
+                    : Request.Form["SelectedResourceGroupName"];
+                if (string.IsNullOrWhiteSpace(subscriptionId) || string.IsNullOrWhiteSpace(resourceGroupName))
+                {
+                    throw new ServiceCatalogException("You should specify both Subscription and Resource Group.");
+                }
+
+                Log.Info($"Subscription ID: {subscriptionId}");
+                Log.Info($"Resource group name: {resourceGroupName}");
 
                 var resourceGroup = await GetOrCreateResourceGroup(resourceGroupName, subscriptionId, location, tagsDict);
 

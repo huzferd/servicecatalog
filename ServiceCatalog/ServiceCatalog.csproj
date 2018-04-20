@@ -443,7 +443,6 @@
     <Folder Include="Templates\" />
     <Folder Include="Views\Location\" />
     <Folder Include="Views\Subscription\" />
-    <Folder Include="Views\Success\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

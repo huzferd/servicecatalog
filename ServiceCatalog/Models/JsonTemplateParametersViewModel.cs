@@ -18,6 +18,8 @@ namespace ServiceCatalog.Models
         public List<Subscription> Subscriptions { get; set; }
 
         public IEnumerable<ResourceGroup> ResourceGroups { get; set; }
+
+        public bool IsManage { get; set; }
     }
 
     public class JsonTemplateParameter

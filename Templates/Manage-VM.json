@@ -3,27 +3,6 @@
     "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "location": {
-      "type": "string",
-      "allowedValues": [
-        "westeurope",
-        "southeastasia",
-        "eastus2",
-        "southcentralus",
-        "japaneast",
-        "southeastasia",
-        "southcentralus",
-        "northeurope",
-        "canadacentral",
-        "australiasoutheast",
-        "centralindia",
-        "japaneast"
-      ],
-      "metadata": {
-        "description":
-          "Specify the Azure Region for your Automation Account"
-      }
-    },
     "vmName": {
       "type": "string"
     },
@@ -33,12 +12,12 @@
     }
   },
   "variables": {
-    "location": "[parameters('location')]",
+    "location": "eastus2",
     "jobId": "[guid(resourceGroup().id, deployment().name)]",
-    "accountName": "automation-account",
+    "accountName": "service-catalog-automation-account",
     "runbookName": "Manage-VM",
     "scriptUri":
-      "https://gist.githubusercontent.com/huzferd/77852f8948df7ec4d19d9cb4410eccec/raw/88314838c2958d269bb0ac5618bbded183d7bdb0/Manage-VM.ps1",
+      "https://raw.githubusercontent.com/huzferd/servicecatalog/master/Templates/Manage-VM.ps1",
     "runbookDescription": "Manage VMs runbook",
     "sku": "Basic"
   },
@@ -83,9 +62,7 @@
             "[concat('Microsoft.Automation/automationAccounts/', variables('accountName'))]",
             "[concat('Microsoft.Automation/automationAccounts/', variables('accountName'), '/runbooks/',variables('runbookName'))]"
           ],
-          "tags": {
-            "key": "value"
-          },
+          "tags": {},
           "properties": {
             "runbook": {
               "name": "[variables('runbookName')]"

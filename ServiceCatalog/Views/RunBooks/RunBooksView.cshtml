@@ -95,7 +95,6 @@
             console.error("jQuery is not defined");
         } else {
             (function ($) {
-
                 $('.show-button').click(function (event) {
                     $('#myModal').modal('show');
                     $('#outputsModalBody').val($.trim(event.target.children[0].innerText));
