@@ -140,7 +140,7 @@ namespace ServiceCatalog.Controllers
                 Log.Info("Start deployments - {0}", deploymentsId);
 
                 var resourceGroupName = template.IsManageTemplate
-                    ? "service-catalog-automation-account"
+                    ? "automation-account-resource-group"
                     : Request.Form["SelectedResourceGroupName"];
                 if (string.IsNullOrWhiteSpace(subscriptionId) || string.IsNullOrWhiteSpace(resourceGroupName))
                 {

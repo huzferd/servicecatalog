@@ -10,7 +10,7 @@
     }
   },
   "variables": {
-    "location": "eastus2",
+    "location": "[resourceGroup().location]",
     "jobId": "[guid(resourceGroup().id, deployment().name)]",
     "accountName": "service-catalog-automation-account",
     "runbookName": "Billing-Invoice",
