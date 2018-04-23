@@ -11,7 +11,7 @@
         <h4>Manage View</h4>
         <hr />
         @Html.ValidationSummary(true)
-        @Html.ValidationSummary(true)
+        var count = 0;
         if (ViewBag.Templates != null && ViewBag.Templates.Count > 0)
         {
             <table class="table table-bordered table-responsive table-hover">
@@ -37,22 +37,22 @@
                         <td>
                             <div class="col-md-3">
                                 @Html.ActionLink("Download JSON template", "GetJsonTemplateFile", "Deployment",
-                                                   new { templateId = template.TemplateId },
-                                                   new { @class = "btn btn-primary" })
+                                    new { templateId = template.TemplateId },
+                                    new { @class = "btn btn-primary" })
                             </div>
                         </td>
                         <td>
                             <div class="col-md-3">
                                 @Html.ActionLink("Visualize", "Visualize", "Deployment",
-                                                   new { templateId = template.TemplateId },
-                                                   new { @class = "btn btn-primary", target = "_blank" })
+                                    new { templateId = template.TemplateId },
+                                    new { @class = "btn btn-primary", target = "_blank" })
                             </div>
                         </td>
                         <td>
                             <div class="col-md-3">
                                 @Html.ActionLink("Deploy", "ParametersView", "Parameters",
-                                                    new { templateId = template.TemplateId, isManage = true },
-                                                    new { @class = "btn btn-primary" })
+                                    new { templateId = template.TemplateId, isManage = true },
+                                    new { @class = "btn btn-primary" })
                             </div>
                         </td>
                         @if (ViewBag.IsAdmin)
@@ -69,9 +69,15 @@
                             </td>
                         }
                         <td>
-                            @template.TemplateUsersGroup
+                            <a class="btn btn-primary show-button" data-toggle="modal" data-target="#outputsModal">
+                                Show Access List
+                                <p id="output-@count" style="display: none;">
+                                    @template.TemplateUsersGroup
+                                </p>
+                            </a>
                         </td>
                     </tr>
+                    count++;
                 }
             </table>
         }
@@ -80,4 +86,25 @@
             <p>No records to display</p>
         }
     }
+
+    @{
+        Html.RenderPartial("_Modal");
+    }
 </div>
+
+@section scripts
+{
+    <script>
+        if (!window.jQuery) {
+            console.error("jQuery is not defined");
+        } else {
+            (function ($) {
+                $('.show-button').click(function (event) {
+                    $('#myModal').modal('show');
+                    $('#myModalLabel').text('Access List');
+                    $('#outputsModalBody').val($.trim(event.target.children[0].innerText));
+                });
+            })(window.jQuery);
+        }
+    </script>
+}

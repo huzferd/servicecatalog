@@ -431,6 +431,7 @@
     <Content Include="Views\GraphUser\GetGraphUserView.cshtml" />
     <Content Include="Views\Deployment\ManageView.cshtml" />
     <Content Include="Views\RunBooks\RunBooksView.cshtml" />
+    <Content Include="Views\Shared\_Modal.cshtml" />
     <None Include="Web.DEV.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
