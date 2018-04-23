@@ -6,10 +6,12 @@
 
 <div class="container">
     @using (Html.BeginForm("UpdateTemplate", "Template", FormMethod.Post,
-        new { @class = "form-horizontal", 
-        role = "form", 
-        enctype = "multipart/form-data",
-        id = "update-template-id"
+        new
+        {
+            @class = "form-horizontal",
+            role = "form",
+            enctype = "multipart/form-data",
+            id = "update-template-id"
         }))
     {
         <h4>Update Template</h4>
@@ -57,7 +59,7 @@
                 <select id="users-id" multiple="multiple" name="users-id" class="add-template-input form-control" size="6">
                     @foreach (var user in ViewBag.Users)
                     {
-                    <option title="@user.UserPrincipalName" value="@user.UserPrincipalName">@user.DisplayName (@user.UserPrincipalName.Substring(0, @user.UserPrincipalName.IndexOf("@")))</option>
+                        <option title="@user.UserPrincipalName" value="@user.UserPrincipalName">@user.DisplayName (@user.UserPrincipalName.Substring(0, @user.UserPrincipalName.IndexOf("@")))</option>
                     }
                 </select>
             </div>
@@ -67,7 +69,10 @@
             <div class="col-md-4">
                 @Html.TextBoxFor(m => m.TemplateData, new
                 {
-                    @class = "add-template-input form-control", type = "file", accept = ".json", aria_describedby = "fileHelp"
+                    @class = "add-template-input form-control",
+                    type = "file",
+                    accept = ".json",
+                    aria_describedby = "fileHelp"
                 })
                 <small id="fileHelp" class="form-text text-muted">The file must be in JSON format.</small>
                 @Html.ValidationMessageFor(m => m.TemplateData)
@@ -82,9 +87,9 @@
     <div class="row" style="padding-bottom: 10px;">
         <div class="col-sm-5">
             @Html.ActionLink("Delete",
-                     "DeleteTemplate",
-                     new { controller = "Deployment", templateId = Model.TemplateId },
-                     new { @class = "btn btn-danger col-md-5", onclick = "return confirm('Are you sure you wish to delete this article?');" })
+                          "DeleteTemplate",
+                          new { controller = "Deployment", templateId = Model.TemplateId },
+                          new { @class = "btn btn-danger col-md-5", onclick = "return confirm('Are you sure you wish to delete this article?');" })
         </div>
     </div>
 </div>
@@ -97,22 +102,28 @@
         } else {
             (function ($) {
                 $('#update-template-id').submit(validateForm);
-
                 var templateGroup = $('#TemplateUsersGroup').val();
-
                 if (templateGroup === '*') {
                     $("#allow-to-all").prop('checked', true);
                     document.getElementById("groups-id").disabled = true;
                     document.getElementById("users-id").disabled = true;
                 }
                 else {
-                    //var arr = templateGroup.split(',');
-                    //var groups = document.getElementById("groups-id");
-                    //for (let i = 0; i < arr.length; i++) {
-                    //    for (let j = 0; j < groups.length; j++) {
-                    //        document.getElementById("groups-id")[1].selected = "selected";
-                    //    }
-                    //}
+                    const templateGroups = templateGroup.split(',');
+                    let groups = document.getElementById("groups-id");
+                    for (let j = 0; j < groups.length; j++) {
+                        let group = document.getElementById("groups-id")[j];
+                        if (group && group.value && templateGroups.indexOf(group.value) !== -1) {
+                            document.getElementById("groups-id")[j].selected = "selected";
+                        }
+                    }
+                    let users = document.getElementById("users-id");
+                    for (let i = 0; i < users.length; i++) {
+                        let user = document.getElementById("users-id")[i];
+                        if (user && user.value && templateGroups.indexOf(user.value) !== -1) {
+                            document.getElementById("users-id")[i].selected = "selected";
+                        }
+                    }
                 }
 
                 function validateForm() {
