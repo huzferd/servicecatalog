@@ -86,6 +86,10 @@
                     $('#myModalLabel').text('Outputs');
                     $('#outputsModalBody').val($.trim(event.target.children[0].innerText));
                 });
+                setInterval(function () {
+                    window.location.reload();
+                }, 35000);
+                $.ajaxSetup({ cache: false });
             })(window.jQuery);
         }
     </script>

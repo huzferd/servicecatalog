@@ -2,7 +2,7 @@
     ViewBag.Title = "Deployments";
 }
 
-<div>
+<div id="deployments">
     <div style="display:  flex; justify-content: space-between;">
         <h4>Deployments</h4>
         <button class="btn btn-primary" style="height: 10%;" onclick="window.location.reload();">Refresh</button>
@@ -59,8 +59,8 @@
                     </td>
                     <td>
                         @Html.ActionLink("Download Log", "GetLogFile", "Deployment",
-                                           new { fileName = @ViewBag.FileLogName },
-                                           new { @class = "btn btn-danger" })
+                            new { fileName = @ViewBag.FileLogName },
+                            new { @class = "btn btn-danger" })
                     </td>
                 </tr>
                 count++;
@@ -89,6 +89,10 @@
                     $('#myModalLabel').text('Outputs');
                     $('#outputsModalBody').val($.trim(event.target.children[0].innerText));
                 });
+                setInterval(function () {
+                    window.location.reload();
+                }, 35000);
+                $.ajaxSetup({ cache: false });
             })(window.jQuery);
         }
     </script>
