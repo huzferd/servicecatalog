@@ -169,11 +169,12 @@ namespace ServiceCatalog.Controllers
 
         public async Task<ActionResult> UpdateTemplate(HttpPostedFileBase templateData, TemplateViewModel templateViewModel)
         {
+            TemplateViewModel newTemplate;
             try
             {
                 using (WebAppContext context = new WebAppContext())
                 {
-                    var newTemplate = await context.TemplateJsons.FirstOrDefaultAsync(x => x.TemplateId == templateViewModel.TemplateId);
+                    newTemplate = await context.TemplateJsons.FirstOrDefaultAsync(x => x.TemplateId == templateViewModel.TemplateId);
                     if (newTemplate != null)
                     {
                         newTemplate.Date = DateTime.Now;
@@ -181,9 +182,10 @@ namespace ServiceCatalog.Controllers
                         newTemplate.TemplateJsonVersion = templateViewModel.TemplateJsonVersion;
                         newTemplate.UserName = System.Web.HttpContext.Current.User.Identity.Name;
                         newTemplate.TemplateUsersGroup = templateViewModel.TemplateUsersGroup;
+                        newTemplate.IsManageTemplate = templateViewModel.IsManageTemplate;
                         if (templateData?.ContentLength > 0)
                         {
-                            using (StreamReader reader = new StreamReader(templateData.InputStream))
+                            using (var reader = new StreamReader(templateData.InputStream))
                             {
                                 newTemplate.TemplateJson = reader.ReadToEnd();
                             }
@@ -201,22 +203,34 @@ namespace ServiceCatalog.Controllers
                 return View("Error");
             }
 
-            return RedirectToAction(templateViewModel.IsManageTemplate ? "../Deployment/ManageView" : "../Deployment/DeployView");
+            return RedirectToAction(newTemplate.IsManageTemplate ? "ManageView" : "DeployView", "Deployment");
         }
 
         [HttpDelete]
         [ActionName("DeleteTemplate")]
         public async Task<ActionResult> DeleteTemplate(long templateId)
         {
-            using (var context = new WebAppContext())
+            try
             {
-                TemplateViewModel templateViewModel = new TemplateViewModel() { TemplateId = templateId };
-                context.TemplateJsons.Attach(templateViewModel);
-                context.TemplateJsons.Remove(templateViewModel);
-                await context.SaveChangesAsync();
-            }
+                TemplateViewModel templateViewModel;
+                using (var context = new WebAppContext())
+                {
+                    templateViewModel = await context.TemplateJsons.FirstOrDefaultAsync(x => x.TemplateId == templateId);
+                    context.TemplateJsons.Attach(templateViewModel);
+                    context.TemplateJsons.Remove(templateViewModel);
+                    await context.SaveChangesAsync();
+                }
 
-            return RedirectToAction("../Deployment/DeployView");
+                return RedirectToAction(templateViewModel.IsManageTemplate ? "ManageView" : "DeployView", "Deployment");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Error";
+                ViewBag.ErrorDetails = ex.Message;
+                Log.Error(ex);
+
+                return View("Error");
+            }
         }
 
         /// <summary>

@@ -27,8 +27,8 @@
                     @if (Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Deploy", "DeployView", "Deployment")</li>
-                        <li>@Html.ActionLink("Manage", "ManageView", "Deployment")</li>
                         <li>@Html.ActionLink("Deployments", "DeploymentsView", "Deployments")</li>
+                        <li>@Html.ActionLink("Manage", "ManageView", "Deployment")</li>
                         <li>@Html.ActionLink("RunBooks", "RunBooksView", "RunBooks")</li>
                         if (UserRoleHelper.IsAdmin(HttpContext.Current.User.Identity.Name))
                         {

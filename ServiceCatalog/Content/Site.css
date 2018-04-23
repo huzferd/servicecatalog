@@ -110,3 +110,7 @@ textarea,
 .add-template-input {
     width: 100%;   
 }
+
+.navbar-nav li + li {
+    border-left: 0.1px solid #222;
+}
