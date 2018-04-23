@@ -33,6 +33,16 @@
             </div>
         </div>
         <div class="form-group">
+            @Html.LabelFor(m => m.IsManageTemplate, new { @class = "col-sm-2 control-label" })
+            <div class="col-md-4">
+                @Html.RadioButtonFor(m => m.IsManageTemplate, true, new { id = "manage-template-id", @class = "add-template-input form-control", style = "width:  20px;display: inline;" })
+                @Html.Label("manage-template-id", "Manage")
+
+                @Html.RadioButtonFor(m => m.IsManageTemplate, false, new { id = "deploy-template-id", @class = "add-template-input form-control", style = "width:  20px;display: inline;" })
+                @Html.Label("manage-template-id", "Deploy")
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-2 control-label">Available to All</label>
             <div class="col-md-4">
                 <input id="allow-to-all" class="form-check-input form-control" type="checkbox" value="" style="width: 20px;height: 20px;">
