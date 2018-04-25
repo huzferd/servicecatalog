@@ -13,7 +13,6 @@ namespace ServiceCatalog.Controllers
     using System.Web.Mvc;
     using BusinessLogic.Client;
     using Common.Constants;
-    using Common.Helpers;
     using Models;
     using System;
 
@@ -50,9 +49,8 @@ namespace ServiceCatalog.Controllers
                         jobList.Add(newJob);
                     }
                 }
-                ViewBag.Jobs = jobList;
 
-                return View();
+                return View(jobList);
             }
             catch (Exception ex)
             {

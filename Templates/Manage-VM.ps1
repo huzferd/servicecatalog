@@ -22,26 +22,34 @@ try {
 catch {
     if (!$servicePrincipalConnection) {
         $ErrorMessage = "Connection $connectionName not found."
+        Write-Output $ErrorMessage
         throw $ErrorMessage
     }
     else {
-        Write-Error -Message $_.Exception
+        Write-Output -Message $_.Exception
         throw $_.Exception
     }
 }
 
-$vm = Get-AzureRMVM | Where-Object Name -eq $VMName
-switch ($Action) {
-    "Start" {
-        Start-AzureRmVM -ResourceGroupName $vm.ResourceGroupName -Name $vm.Name
+try {
+    
+    $vm = Get-AzureRMVM | Where-Object Name -eq $VMName
+    switch ($Action) {
+        "Start" {
+            Start-AzureRmVM -ResourceGroupName $vm.ResourceGroupName -Name $vm.Name
+        }
+        "Stop" {
+            Stop-AzureRmVM -ResourceGroupName $vm.ResourceGroupName -Name $vm.Name -Force
+        }
+        "Restart" {
+            Restart-AzureRmVM -ResourceGroupName $vm.ResourceGroupName -Name $vm.Name
+        }
+        Default {
+            Write-Error "$Action - action not found"
+        }
     }
-    "Stop" {
-        Stop-AzureRmVM -ResourceGroupName $vm.ResourceGroupName -Name $vm.Name -Force
-    }
-    "Restart" {
-        Restart-AzureRmVM -ResourceGroupName $vm.ResourceGroupName -Name $vm.Name
-    }
-    Default {
-        Write-Error "$Action - action not found"
-    }
+}
+catch {
+    Write-Error -Message $_.Exception
+    throw $_.Exception
 }

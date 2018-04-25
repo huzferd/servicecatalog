@@ -4,8 +4,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using ServiceCatalog.Common.Helpers;
-
 namespace ServiceCatalog.Controllers
 {
     using System.Collections.Generic;
@@ -20,10 +18,8 @@ namespace ServiceCatalog.Controllers
     using System;
     using Microsoft.Azure.Management.ResourceManager.Models;
     using System.Security.Claims;
+    using Common.Helpers;
 
-    /// <summary>
-    /// 
-    /// </summary>
     public class DeploymentsController : BaseController
     {
         // GET: Deployments
@@ -33,7 +29,6 @@ namespace ServiceCatalog.Controllers
             {
                 // Get all subscriptions for this tenant
                 var subscriptions = await new SubscriptionController().GetSubscriptions();
-                // Select default subscription | now use locations from default subscription. Additional research required.
                 var subscriptionId = subscriptions.FirstOrDefault()?.SubscriptionId;
                 var token = await ServicePrincipal.GetAccessToken();
                 var client = new RestApiClient();
@@ -45,13 +40,12 @@ namespace ServiceCatalog.Controllers
                 foreach (var resourceGroup in resourceGroups.Result)
                 {
                     var deploymentsUri = string.Format(UriConstants.GetDeploymentsByResourceGroup, subscriptionId, resourceGroup.Name);
-
                     client = new RestApiClient();
                     var result = await client.CallGetListAsync<DeploymentExtended>(deploymentsUri, token);
                     var deployment = result.Result;
                     deployments.AddRange(deployment);
                 }
-                
+
                 var email = ClaimsPrincipal.Current.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value;
                 var resultDeployments = new List<DeploymentViewModel>();
                 using (WebAppContext context = new WebAppContext())
@@ -86,8 +80,11 @@ namespace ServiceCatalog.Controllers
                         }
                     }
                 }
-                ViewBag.Deployments = resultDeployments.OrderByDescending(d => d.Timestamp).ToList();
+                var deploymentsList = resultDeployments.OrderByDescending(d => d.Timestamp).ToList();
+
                 ViewBag.FileLogName = $"{DateTime.Today:yyyy-MM-dd}.log";
+
+                return View(deploymentsList);
             }
             catch (Exception ex)
             {
@@ -96,8 +93,6 @@ namespace ServiceCatalog.Controllers
 
                 return View("Error");
             }
-
-            return View();
         }
     }
 }

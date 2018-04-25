@@ -114,3 +114,7 @@ textarea,
 .navbar-nav li + li {
     border-left: 0.1px solid #222;
 }
+
+.table-striped > tbody > tr:nth-child(odd) > td {
+    background-color: #3c3c3c;
+}

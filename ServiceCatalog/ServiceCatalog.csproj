@@ -59,6 +59,9 @@
       <HintPath>..\packages\FileHelpers.3.1.5\lib\net45\FileHelpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GridMvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Grid.Mvc.3.0.0\lib\net40\GridMvc.dll</HintPath>
+    </Reference>
     <Reference Include="Hyak.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Hyak.Common.1.0.2\lib\net45\Hyak.Common.dll</HintPath>
       <Private>True</Private>
@@ -364,6 +367,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\Images\loader.gif" />
     <Content Include="Content\Styles\Error.css" />
     <Content Include="Content\Styles\selectize.bootstrap3.css" />
@@ -374,12 +378,15 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\data-science.js" />
+    <Content Include="Scripts\gridmvc.js" />
+    <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\selectize.min.js" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Templates\Input.csv" />
     <Content Include="ServiceCatalog.licenseheader" />
+    <Content Include="Grid.mvc.readme" />
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -432,6 +439,8 @@
     <Content Include="Views\Deployment\ManageView.cshtml" />
     <Content Include="Views\RunBooks\RunBooksView.cshtml" />
     <Content Include="Views\Shared\_Modal.cshtml" />
+    <Content Include="Views\Shared\_GridPager.cshtml" />
+    <Content Include="Views\Shared\_Grid.cshtml" />
     <None Include="Web.DEV.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -175,20 +175,23 @@ namespace ServiceCatalog.Controllers
 
                 var subscriptions = await new SubscriptionController().GetSubscriptions();
                 var subscription = subscriptions.FirstOrDefault(s => s.SubscriptionId == subscriptionId);
-                using (WebAppContext webAppContext = new WebAppContext())
+                if (!template.IsManageTemplate)
                 {
-                    DeploymentViewModel deploymentViewModel = new DeploymentViewModel()
+                    using (WebAppContext webAppContext = new WebAppContext())
                     {
-                        DeploymentName = deploymentId,
-                        TemplateVersion = template.TemplateJsonVersion,
-                        Owner = System.Web.HttpContext.Current.User.Identity.Name,
-                        TemplateName = template.TemplateName,
-                        Timestamp = DateTime.Now,
-                        SubscriptionId = subscription?.SubscriptionId,
-                        SubscriptionName = subscription?.DisplayName
-                    };
-                    webAppContext.Deployments.Add(deploymentViewModel);
-                    webAppContext.SaveChanges();
+                        DeploymentViewModel deploymentViewModel = new DeploymentViewModel()
+                        {
+                            DeploymentName = deploymentId,
+                            TemplateVersion = template.TemplateJsonVersion,
+                            Owner = System.Web.HttpContext.Current.User.Identity.Name,
+                            TemplateName = template.TemplateName,
+                            Timestamp = DateTime.Now,
+                            SubscriptionId = subscription?.SubscriptionId,
+                            SubscriptionName = subscription?.DisplayName
+                        };
+                        webAppContext.Deployments.Add(deploymentViewModel);
+                        webAppContext.SaveChanges();
+                    }
                 }
 
                 // Preparing endpoint URL for deployment

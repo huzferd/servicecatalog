@@ -21,23 +21,30 @@ catch {
         throw $ErrorMessage
     }
     else {
-        Write-Error -Message $_.Exception
+        Write-Output -Message $_.Exception
         throw $_.Exception
     }
 }
-$invoices = @{}
-switch ($billingPeriod) {
-    "Latest" {
-        $invoices = Get-AzureRmBillingInvoice -Latest
+
+try {
+    $invoices = @{}
+    switch ($billingPeriod) {
+        "Latest" {
+            $invoices = Get-AzureRmBillingInvoice -Latest
+        }
+        "All" {
+            $invoices = Get-AzureRmBillingInvoice -GenerateDownloadUrl
+        }
+        Default {
+            Write-Output "$billingPeriod - incorrect period"
+        }
     }
-    "All" {
-        $invoices = Get-AzureRmBillingInvoice -GenerateDownloadUrl
-    }
-    Default {
-        Write-Error "$billingPeriod - incorrect period"
+
+    foreach ($invoice in $invoices) {
+        Write-Output $invoice.Name / $invoice.DownloadUrl 
     }
 }
-
-foreach ($invoice in $invoices) {
-    Write-Host $invoice.Name | $invoice.DownloadUrl 
+catch {
+    Write-Output -Message $_.Exception
+    throw $_.Exception
 }
