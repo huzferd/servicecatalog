@@ -15,7 +15,7 @@
     "accountName": "service-catalog-automation-account",
     "runbookName": "Billing-Invoice",
     "scriptUri":
-      "https://raw.githubusercontent.com/huzferd/servicecatalog/master/Templates/Billing-Invoice.ps1",
+      "https://raw.githubusercontent.com/huzferd/servicecatalog/master/Scripts/Billing-Invoice.ps1",
     "runbookDescription": "Billing-Invoice runbook",
     "sku": "Basic"
   },

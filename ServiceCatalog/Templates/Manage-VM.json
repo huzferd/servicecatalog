@@ -17,7 +17,7 @@
     "accountName": "service-catalog-automation-account",
     "runbookName": "Manage-VM",
     "scriptUri":
-      "https://raw.githubusercontent.com/huzferd/servicecatalog/master/Templates/Manage-VM.ps1",
+      "https://raw.githubusercontent.com/huzferd/servicecatalog/master/Scripts/Manage-VM.ps1",
     "runbookDescription": "Manage VMs runbook",
     "sku": "Basic"
   },

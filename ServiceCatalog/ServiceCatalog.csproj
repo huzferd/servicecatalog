@@ -441,6 +441,10 @@
     <Content Include="Views\Shared\_Modal.cshtml" />
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
+    <Content Include="Templates\Billing-Invoice.json" />
+    <Content Include="Templates\Manage-VM.json" />
+    <Content Include="Templates\Ubuntu-Server-Template.json" />
+    <Content Include="Templates\Windows-Server-Template.json" />
     <None Include="Web.DEV.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -450,7 +454,6 @@
     <Folder Include="Deployments\" />
     <Folder Include="Filters\" />
     <Folder Include="Logs\Archive\" />
-    <Folder Include="Templates\" />
     <Folder Include="Views\Location\" />
     <Folder Include="Views\Subscription\" />
   </ItemGroup>
