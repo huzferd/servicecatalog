@@ -4,6 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+
 namespace ServiceCatalog.Migrations
 {
     using System;
@@ -12,6 +13,7 @@ namespace ServiceCatalog.Migrations
     using Common.Helpers;
     using System.IO;
     using NLog;
+    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<Context.WebAppContext>
     {
@@ -26,6 +28,11 @@ namespace ServiceCatalog.Migrations
             var log = LogManager.GetLogger(GetType().FullName);
             try
             {
+                if (context.TemplateJsons.Any())
+                {
+                    return;
+                }
+
                 var baseDir = AppDomain.CurrentDomain.BaseDirectory.Replace("\\bin", string.Empty) + "\\Templates";
                 log.Info($"Base Dir: {baseDir}");
                 log.Info($"templateJson1 path: {Path.Combine(baseDir, "Billing-Invoice.json")}");
@@ -84,7 +91,6 @@ namespace ServiceCatalog.Migrations
                         TemplateUsersGroup = "*"
                     }
                 );
-
                 context.SaveChanges();
             }
             catch (Exception ex)
