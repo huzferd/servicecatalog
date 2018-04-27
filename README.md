@@ -73,7 +73,7 @@ Log in to Azure at https://portal.azure.com
 1.  Open https://github.com/huzferd/servicecatalog, click `Clone or Download` and click `Download`
 2.  Extract `servicecatalog-master.zip` and change directory to `Scripts`
 
-## Create Service Account
+## Step 5: Create Service Account
 
 To display help information, run this command:
 
@@ -97,7 +97,34 @@ Run PowerShell as administrator and execute the following command:
 
 # Deploy to Azure
 
+When a you clicks on the "Deploy to Azure" button, we load a default Azure Resource Manager (ARM) template which can be used to create a site with code deployed from your GitHub repository. If you would like to customize the template used, you can change a file called "azuredeploy.json" next to your README.md file. Properties that are exposed through your template will show up as input parameters in the site.
+
+## Buttons
+
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://azuredeploy.net/)
 [![Visualize](http://armviz.io/visualizebutton.png)](http://armviz.io/#/?load=https://raw.githubusercontent.com/huzferd/servicecatalog/master/azuredeploy.json)
 
----
+## Deployment process
+
+After clicking on the "Deploy to Azure" you get to a page input and preview settings.
+
+> NOTE! If you are not logged in, you get to the login page. Use Azure Portal Account to log in, then you will automatically be redirected to the preview page.
+
+![Login page](./media/deploy-to-azure/deploy-service-catalog-login.png)
+
+Enter the settings you received in **Step 5** and click to **Next** button.
+
+![Deploye to Azure Setup](./media/deploy-to-azure/deploy-service-catalog-setup.png)
+
+Check resources and click to **Deploy** button.
+
+![Deploye to Azure Preview page](./media/deploy-to-azure/deploy-service-catalog-preview.png)
+
+If you did everything right, you'll get a similar result.
+
+![Deploye to Azure Deploy page](./media/deploy-to-azure/deploy-service-catalog-deploy.png)
+
+After that, you can go to the link and when you first access the web page request the following rights for your application.
+
+![Deploye to Azure Deploy page](./media/deploy-to-azure/deploy-service-catalog-accept.png)
+

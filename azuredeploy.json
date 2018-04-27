@@ -122,9 +122,7 @@
           "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "hostingEnvironment": "",
         "cors": {
-          "allowedOrigins": [
-            "*"
-          ]
+          "allowedOrigins": ["*"]
         }
       },
       "location": "[resourceGroup().location]",
