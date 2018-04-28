@@ -379,7 +379,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\data-science.js" />
     <Content Include="Scripts\gridmvc.js" />
-    <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\selectize.min.js" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

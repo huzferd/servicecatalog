@@ -1,4 +1,5 @@
-﻿@using GridMvc.Html
+﻿@using GridMvc.Filtering
+@using GridMvc.Html
 @model IEnumerable<ServiceCatalog.Models.DeploymentViewModel>
 
 @{
@@ -13,16 +14,34 @@
     <hr />
     @Html.Grid(Model).Columns(columns =>
         {
-            columns.Add(m => m.TemplateName).Titled("Template Name").Filterable(true);
-            columns.Add(m => m.DeploymentName).Titled("Deployment Name").Filterable(true);
-            columns.Add(m => m.SubscriptionName).Titled("Subscription Name").Filterable(true);
-            columns.Add(m => m.ProvisioningState).Titled("Status").Filterable(true);
-            columns.Add(m => m.TemplateVersion).Titled("Version").Filterable(true);
-            columns.Add(m => m.Timestamp).Titled("Time").Filterable(true)
+            columns.Add(m => m.TemplateName)
+                .Titled("Template Name").Filterable(true)
+                .SetInitialFilter(GridFilterType.Contains, "");
+
+            columns.Add(m => m.DeploymentName)
+                .Titled("Deployment Name").Filterable(true);
+
+            columns.Add(m => m.SubscriptionName)
+                .Titled("Subscription Name").Filterable(true);
+
+            columns.Add(m => m.ProvisioningState)
+                .Titled("Status").Filterable(true);
+
+            columns.Add(m => m.TemplateVersion)
+                .Titled("Version").Filterable(true);
+
+            columns.Add(m => m.Timestamp)
+                .Titled("Time").Filterable(true)
                 .RenderValueAs(s => s.Timestamp.ToString("MM/dd/yyyy hh:mm"));
-            columns.Add(m => m.Owner).Titled("Owner").Filterable(true)
+
+            columns.Add(m => m.Owner)
+                .Titled("Owner").Filterable(true)
                 .RenderValueAs(m => m.Owner.Substring(0, m.Owner.IndexOf("@", StringComparison.Ordinal)));
-            columns.Add().Encoded(false).Sanitized(false).Titled("Outputs").Filterable(false)
+
+            columns.Add()
+                .Encoded(false)
+                .Sanitized(false)
+                .Titled("Outputs").Filterable(false)
                 .RenderValueAs(col =>
                     @<a class="btn btn-primary show-button" data-toggle="modal" data-target="#outputsModal">
                         Show Outputs
@@ -30,12 +49,13 @@
                             @col.Outputs
                         </p>
                     </a>);
-                    columns.Add().Encoded(false).Sanitized(false).Titled("Logs").Filterable(false)
-                        .RenderValueAs(col =>
+            columns.Add()
+                .Encoded(false).Sanitized(false).Titled("Logs").Filterable(false)
+                .RenderValueAs(col =>
                             @Html.ActionLink("Download Log", "GetLogFile", "Deployment",
                                 new { fileName = ViewBag.FileLogName },
                                 new { @class = "btn btn-danger" }));
-                }).WithPaging(10).Sortable(true)
+                }).WithPaging(10).Sortable(true).WithMultipleFilters()
 </div>
 
 @{
