@@ -128,3 +128,29 @@ After that, you can go to the link and when you first access the web page reques
 
 ![Deploye to Azure Deploy page](./media/deploy-to-azure/deploy-service-catalog-accept.png)
 
+
+## Service Usage
+
+### Service Catalog Menu
+
+![Menu](./media/service-catalog/deploy-view-menu.png)
+
+### Deploy page
+
+![Deploy page](./media/service-catalog/deploy-view.png)
+
+
+### Deployment logs page
+
+![Deployment logs](./media/service-catalog/deployment-logs.png)
+
+### Paramenters page
+
+![Parameters page](./media/service-catalog/parameters-page.png)
+
+### Add Template page
+
+![Add Template page](./media/service-catalog/add-template.png)
+
+
+## Troubleshoot
