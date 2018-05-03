@@ -131,22 +131,40 @@ After that, you can go to the link and when you first access the web page reques
 
 ## Service Usage
 
-### Service Catalog Menu
+### Service Catalog menu
 
 ![Menu](./media/service-catalog/deploy-view-menu.png)
+
+1. **Deploy page** - contains templates for deploying different kinds of resources.
+1. **Deployement Logs page** - contains information about the deployments, status and logs.
+1. **Manage page** - contains templates for automatization, like run/stop/reload VMs, execution of arbitrary commands. 
+1. **Management Logs page** - contains information about the jobs, status and logs.
+1. **Add Template page** - allows you to add new templates.
+
 
 ### Deploy page
 
 ![Deploy page](./media/service-catalog/deploy-view.png)
 
+### Deploy Paramenters page
+
+![Parameters page](./media/service-catalog/parameters-page.png)
 
 ### Deployment logs page
 
 ![Deployment logs](./media/service-catalog/deployment-logs.png)
 
-### Paramenters page
+### Manage page
 
-![Parameters page](./media/service-catalog/parameters-page.png)
+![Manage Page](./media/service-catalog/manage-view.png)
+
+### Management Logs page
+
+![Management Logs page](./media/service-catalog/management-logs.png)
+
+### Manage Parameters page
+
+![Manage Parameters page](./media/service-catalog/manage-parameters.png)
 
 ### Add Template page
 
@@ -154,3 +172,4 @@ After that, you can go to the link and when you first access the web page reques
 
 
 ## Troubleshoot
+
