@@ -28,9 +28,9 @@
                     @if (Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Deploy", "DeployView", "Deployment")</li>
-                        <li>@Html.ActionLink("Deployments", "DeploymentsView", "Deployments")</li>
+                        <li>@Html.ActionLink("Deployment Logs", "DeploymentsView", "Deployments")</li>
                         <li>@Html.ActionLink("Manage", "ManageView", "Deployment")</li>
-                        <li>@Html.ActionLink("RunBooks", "RunBooksView", "RunBooks")</li>
+                        <li>@Html.ActionLink("Management Logs", "RunBooksView", "RunBooks")</li>
                         if (UserRoleHelper.IsAdmin(HttpContext.Current.User.Identity.Name))
                         {
                             <li>@Html.ActionLink("Add Template", "CreateTemplateView", "Template")</li>

@@ -2,25 +2,31 @@
 @model IEnumerable<ServiceCatalog.Models.Job>
 
 @{
-    ViewBag.Title = "RunBooks";
+    ViewBag.Title = "Management Logs";
 }
 
 <div>
     <div style="display:  flex; justify-content: space-between;">
-        <h4>RunBooks</h4>
+        <h4>Management Logs</h4>
         <button class="btn btn-primary" style="height: 10%;" onclick="window.location.reload();">Refresh</button>
     </div>
     <hr />
     @Html.Grid(Model).Columns(columns =>
     {
-        columns.Add(m => m.Properties.RunBook.Name).Titled("RunBook Name").Filterable(true);
-        columns.Add(m => m.Properties.JobId).Titled("JobId").Filterable(true);
-        columns.Add(m => m.Properties.Status).Titled("Status").Filterable(true);
-        columns.Add(m => m.Properties.StartTime).Titled("StartTime").Filterable(true)
+        columns.Add(m => m.Properties.RunBook.Name)
+            .Titled("RunBook Name").Filterable(true);
+        columns.Add(m => m.Properties.JobId)
+            .Titled("JobId").Filterable(true);
+        columns.Add(m => m.Properties.Status)
+            .Titled("Status").Filterable(true);
+        columns.Add(m => m.Properties.StartTime)
+            .Titled("StartTime").Filterable(true)
             .RenderValueAs(s => s.Properties.StartTime?.ToString("MM/dd/yyyy hh:mm"));
-        columns.Add(m => m.Properties.EndTime).Titled("EndTime").Filterable(true)
+        columns.Add(m => m.Properties.EndTime)
+            .Titled("EndTime").Filterable(true)
             .RenderValueAs(s => s.Properties.EndTime?.ToString("MM/dd/yyyy hh:mm"));
-        columns.Add().Encoded(false).Sanitized(false).Titled("Outputs").Filterable(false)
+        columns.Add().Encoded(false).Sanitized(false)
+            .Titled("Outputs").Filterable(false)
             .RenderValueAs(col =>
                 @<a class="btn btn-primary show-button" data-toggle="modal" data-target="#outputsModal">
                     Show Outputs
