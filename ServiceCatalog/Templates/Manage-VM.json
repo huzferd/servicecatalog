@@ -7,13 +7,16 @@
       "type": "string"
     },
     "action": {
-      "type": "string",
-      "allowedValues": ["Start", "Stop", "Reboot"]
-    }
+        "type": "string",
+        "allowedValues": [ "Start", "Stop", "Reboot" ]
+    },
+    "jobid": {
+        "type": "string"
+    } 
   },
   "variables": {
     "location": "[resourceGroup().location]",
-    "jobId": "[guid(resourceGroup().id, deployment().name)]",
+    "jobId": "[parameters('jobid')]",
     "accountName": "service-catalog-automation-account",
     "runbookName": "Manage-VM",
     "scriptUri":

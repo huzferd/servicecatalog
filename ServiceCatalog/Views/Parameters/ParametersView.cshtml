@@ -30,14 +30,14 @@
             <div class="form-group col-md-6">
                 <label class="control-label">Subscription</label>
                 @Html.DropDownList(
-                          "SelectedSubscriptionId",
-                          Model.Subscriptions.Select(s =>
-                              new SelectListItem
-                              {
-                                  Text = s.DisplayName,
-                                  Value = s.SubscriptionId,
-                              }),
-                          new { @class = "form-control", id = "subscription-select" })
+                               "SelectedSubscriptionId",
+                               Model.Subscriptions.Select(s =>
+                                   new SelectListItem
+                                   {
+                                       Text = s.DisplayName,
+                                       Value = s.SubscriptionId,
+                                   }),
+                               new { @class = "form-control", id = "subscription-select" })
                 @Html.ValidationMessage("SelectedSubscriptionId")
             </div>
             <div class="form-group col-md-6">
@@ -50,28 +50,34 @@
         <hr />
         for (var i = 0; i < Model.Parameters.Count; i++)
         {
-        <div class="form-group col-md-6">
-            <label class="control-label">@Model.Parameters[i].Name</label>
-            @if (Model.Parameters[i].Type == JsonTemplateParameterType.String)
-        {
-            if (Model.Parameters[i].AllowedValues?.Count > 0)
+            if (Model.Parameters[i].Name == "jobid" && Model.IsManage)
             {
-                @Html.DropDownList(Model.Parameters[i].Name,
-                               new SelectList(Model.Parameters[i].AllowedValues),
-                               new { @class = "form-control", id = Model.Parameters[i].Name })
-        }
-        else
-        {
-            @Html.TextBox(Model.Parameters[i].Name, "", new { @class = "form-control" })
-    }
-}
-else if (Model.Parameters[i].Type == JsonTemplateParameterType.SecureString)
-{
-    @Html.Password(Model.Parameters[i].Name, "", new { @class = "form-control" })
-    <div class="form-control-feedback"></div>
-}
-            @Html.ValidationMessage(Model.Parameters[i].Name)
-        </div>
+                @Html.TextBox(Model.Parameters[i].Name, "value", new { style="display: none;" })
+                continue;
+            }
+
+            <div class="form-group col-md-6">
+                <label class="control-label">@Model.Parameters[i].Name</label>
+                @if (Model.Parameters[i].Type == JsonTemplateParameterType.String)
+                {
+                    if (Model.Parameters[i].AllowedValues?.Count > 0)
+                    {
+                        @Html.DropDownList(Model.Parameters[i].Name,
+                                            new SelectList(Model.Parameters[i].AllowedValues),
+                                            new { @class = "form-control", id = Model.Parameters[i].Name })
+                    }
+                    else
+                    {
+                        @Html.TextBox(Model.Parameters[i].Name, "", new { @class = "form-control" })
+                    }
+                }
+                else if (Model.Parameters[i].Type == JsonTemplateParameterType.SecureString)
+                {
+                    @Html.Password(Model.Parameters[i].Name, "", new { @class = "form-control" })
+                    <div class="form-control-feedback"></div>
+                }
+                @Html.ValidationMessage(Model.Parameters[i].Name)
+            </div>
         }
 
         <div class="form-group col-md-6">
@@ -79,8 +85,8 @@ else if (Model.Parameters[i].Type == JsonTemplateParameterType.SecureString)
                 <button id="deploy" type="submit" class="btn btn-primary">Start Deployment</button>
             </div>
         </div>
-        }
-    </div>
+    }
+</div>
 
 @section scripts
 {

@@ -342,6 +342,10 @@
     <Compile Include="Migrations\201804101215500_DeployManageTemplate.Designer.cs">
       <DependentUpon>201804101215500_DeployManageTemplate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805041121252_Jobs.cs" />
+    <Compile Include="Migrations\201805041121252_Jobs.Designer.cs">
+      <DependentUpon>201805041121252_Jobs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AutomationAccount.cs" />
     <Compile Include="Models\CompliteStateViewModel.cs" />
@@ -351,6 +355,7 @@
     <Compile Include="Models\GraphUserViewModel.cs" />
     <Compile Include="Models\InvoicesViewModel.cs" />
     <Compile Include="Models\Job.cs" />
+    <Compile Include="Models\JobViewModel.cs" />
     <Compile Include="Models\JsonTemplateParametersViewModel.cs" />
     <Compile Include="Models\LocationViewModel.cs" />
     <Compile Include="Models\ResourceGroupManagementViewModel.cs" />
@@ -492,6 +497,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804101215500_DeployManageTemplate.resx">
       <DependentUpon>201804101215500_DeployManageTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805041121252_Jobs.resx">
+      <DependentUpon>201805041121252_Jobs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

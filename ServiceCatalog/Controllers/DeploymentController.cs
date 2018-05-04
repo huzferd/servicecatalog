@@ -133,9 +133,14 @@ namespace ServiceCatalog.Controllers
                 {
                     { "Deploy", "ServiceCatalog" },
                 };
-
                 FillParametersAndTagsDictionaries(template.TemplateJson, ref paramsDict, ref tagsDict);
-
+                Log.Info($"Is Manage Template: {template.IsManageTemplate}");
+                var jobId = Guid.NewGuid().ToString();
+                if (template.IsManageTemplate)
+                {
+                    Log.Info($"Job Id: {jobId}");
+                    paramsDict["jobid"] = jobId;
+                }
                 var deploymentsId = Guid.NewGuid();
                 Log.Info("Start deployments - {0}", deploymentsId);
 
@@ -151,12 +156,8 @@ namespace ServiceCatalog.Controllers
                 Log.Info($"Resource group name: {resourceGroupName}");
 
                 var resourceGroup = await GetOrCreateResourceGroup(resourceGroupName, subscriptionId, location, tagsDict);
-
-                var parametersObj =
-                    TemplateHelper.PrepareTemplateParametersWithValues(template.TemplateJson, paramsDict);
-
+                var parametersObj = TemplateHelper.PrepareTemplateParametersWithValues(template.TemplateJson, paramsDict);
                 Log.Info($"Parameters: {parametersObj}");
-
                 var deployment = new Deployment
                 {
                     Properties = new DeploymentProperties
@@ -175,7 +176,20 @@ namespace ServiceCatalog.Controllers
 
                 var subscriptions = await new SubscriptionController().GetSubscriptions();
                 var subscription = subscriptions.FirstOrDefault(s => s.SubscriptionId == subscriptionId);
-                if (!template.IsManageTemplate)
+                if (template.IsManageTemplate)
+                {
+                    using (WebAppContext webAppContext = new WebAppContext())
+                    {
+                        Job job = new Job()
+                        {
+                            Id = jobId,
+                            Owner = System.Web.HttpContext.Current.User.Identity.Name
+                        };
+                        webAppContext.Jobs.Add(job);
+                        webAppContext.SaveChanges();
+                    }
+                }
+                else
                 {
                     using (WebAppContext webAppContext = new WebAppContext())
                     {

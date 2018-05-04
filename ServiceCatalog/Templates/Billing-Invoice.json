@@ -7,11 +7,14 @@
       "type": "string",
       "defaultValue": "Latest",
       "allowedValues": ["Latest", "All"]
-    }
+    },
+    "jobid": {
+        "type": "string"
+    } 
   },
   "variables": {
     "location": "[resourceGroup().location]",
-    "jobId": "[guid(resourceGroup().id, deployment().name)]",
+    "jobId": "[parameters('jobid')]",
     "accountName": "service-catalog-automation-account",
     "runbookName": "Billing-Invoice",
     "scriptUri":
