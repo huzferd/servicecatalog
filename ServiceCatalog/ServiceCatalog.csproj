@@ -374,6 +374,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\Images\loader.gif" />
+    <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Styles\Error.css" />
     <Content Include="Content\Styles\selectize.bootstrap3.css" />
     <Content Include="favicon.ico" />

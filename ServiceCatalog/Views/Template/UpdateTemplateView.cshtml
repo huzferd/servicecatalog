@@ -84,7 +84,9 @@
                     accept = ".json",
                     aria_describedby = "fileHelp"
                 })
-                <small id="fileHelp" class="form-text text-muted">The file must be in JSON format.</small>
+                <small id="fileHelp" class="form-text text-muted">
+                    Choose a local file or specify a link. <br>e.g. http://contoso.com/template.json
+                </small>
                 @Html.ValidationMessageFor(m => m.TemplateData)
             </div>
         </div>

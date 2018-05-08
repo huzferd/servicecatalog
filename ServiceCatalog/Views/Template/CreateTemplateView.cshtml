@@ -22,7 +22,9 @@
             @Html.LabelFor(m => m.TemplateData, new { @class = "col-sm-2 control-label" })
             <div class="col-md-4">
                 @Html.TextBoxFor(m => m.TemplateData, new { @class = "add-template-input form-control", type = "file", accept = ".json", aria_describedby = "fileHelp" })
-                <small id="fileHelp" class="form-text text-muted">The file must be in JSON format.</small>
+                <small id="fileHelp" class="form-text text-muted">
+                    Choose a local file or specify a link. <br>e.g. http://contoso.com/template.json
+                </small>
                 @Html.ValidationMessageFor(m => m.TemplateData)
             </div>
         </div>
