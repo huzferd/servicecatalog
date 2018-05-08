@@ -19,6 +19,22 @@
         @Html.ValidationSummary(true)
         @Html.TextBoxFor(m => m.TemplateId, new { @class = "hidden" })
         <div class="form-group">
+            @Html.LabelFor(m => m.TemplateData, new { @class = "col-sm-2 control-label" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.TemplateData, new
+                {
+                    @class = "add-template-input form-control",
+                    type = "file",
+                    accept = ".json",
+                    aria_describedby = "fileHelp"
+                })
+                <small id="fileHelp" class="form-text text-muted">
+                    Choose a local file or specify a link, e.g.:<br> http://contoso.com/template.json
+                </small>
+                @Html.ValidationMessageFor(m => m.TemplateData)
+            </div>
+        </div>
+        <div class="form-group">
             @Html.LabelFor(m => m.Comment, new { @class = "col-sm-2 control-label" })
             <div class="col-md-4">
                 @Html.TextBoxFor(m => m.Comment, new { @class = "add-template-input form-control" })
@@ -72,22 +88,6 @@
                         <option title="@user.UserPrincipalName" value="@user.UserPrincipalName">@user.DisplayName (@user.UserPrincipalName.Substring(0, @user.UserPrincipalName.IndexOf("@")))</option>
                     }
                 </select>
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.TemplateData, new { @class = "col-sm-2 control-label" })
-            <div class="col-md-4">
-                @Html.TextBoxFor(m => m.TemplateData, new
-                {
-                    @class = "add-template-input form-control",
-                    type = "file",
-                    accept = ".json",
-                    aria_describedby = "fileHelp"
-                })
-                <small id="fileHelp" class="form-text text-muted">
-                    Choose a local file or specify a link, e.g.:<br> http://contoso.com/template.json
-                </small>
-                @Html.ValidationMessageFor(m => m.TemplateData)
             </div>
         </div>
         <div class="form-group">
