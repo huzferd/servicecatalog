@@ -143,7 +143,7 @@ namespace ServiceCatalog.Controllers
                 {
                     TemplateViewModel template = new TemplateViewModel
                     {
-                        TemplateName = templateData.FileName,
+                        TemplateName = Path.GetFileNameWithoutExtension(templateData.FileName),
                         TemplateJson = reader.ReadToEnd(),
                         Date = DateTime.Now,
                         Comment = templateViewModel.Comment,
@@ -177,6 +177,7 @@ namespace ServiceCatalog.Controllers
                     newTemplate = await context.TemplateJsons.FirstOrDefaultAsync(x => x.TemplateId == templateViewModel.TemplateId);
                     if (newTemplate != null)
                     {
+                        
                         newTemplate.Date = DateTime.Now;
                         newTemplate.Comment = templateViewModel.Comment;
                         newTemplate.TemplateJsonVersion = templateViewModel.TemplateJsonVersion;
@@ -185,6 +186,7 @@ namespace ServiceCatalog.Controllers
                         newTemplate.IsManageTemplate = templateViewModel.IsManageTemplate;
                         if (templateData?.ContentLength > 0)
                         {
+                            newTemplate.TemplateName = Path.GetFileNameWithoutExtension(templateData.FileName);
                             using (var reader = new StreamReader(templateData.InputStream))
                             {
                                 newTemplate.TemplateJson = reader.ReadToEnd();

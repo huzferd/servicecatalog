@@ -16,7 +16,7 @@
         {
             <table class="table table-bordered table-responsive table-hover">
                 <tr>
-                    <th>Json Name</th>
+                    <th>Template Name</th>
                     <th>Comments</th>
                     <th>Version</th>
                     <th>Link To Template</th>
@@ -58,7 +58,7 @@
                         @if (ViewBag.IsAdmin)
                         {
                             <td>
-                                <div class="btn-group">
+                                <div class="btn-group" style="min-width: 120px;">
                                     @Html.ActionLink("Edit", "UpdateTemplateView", "Template",
                                         new { templateId = template.TemplateId },
                                         new { @class = "btn btn-warning" })
