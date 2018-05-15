@@ -32,6 +32,9 @@
     },
     "sqlAdministratorLoginPassword": {
       "value": ""
+    },
+    "logoUrl": {
+      "value": "https://raw.githubusercontent.com/huzferd/servicecatalog/master/ServiceCatalog/Content/Images/logo.png"
     }
   }
 }

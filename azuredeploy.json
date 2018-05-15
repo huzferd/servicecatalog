@@ -48,6 +48,10 @@
     },
     "sqlAdministratorLoginPassword": {
       "type": "securestring"
+    },
+    "logoUrl": {
+      "type": "string",
+      "defaultValue": "https://raw.githubusercontent.com/huzferd/servicecatalog/master/ServiceCatalog/Content/Images/logo.png"
     }
   },
   "variables": {
@@ -153,7 +157,8 @@
             "TENANT": "[parameters('tenantName')]",
             "PROJECT": "ServiceCatalog\\ServiceCatalog.csproj",
             "ADMIN_USER": "[parameters('siteAdminUserName')]",
-            "clientUrl": "[variables('clientUrl')]"
+            "clientUrl": "[variables('clientUrl')]",
+            "LOGO_URL": "[parameters('logoUrl')]"
           }
         },
         {
