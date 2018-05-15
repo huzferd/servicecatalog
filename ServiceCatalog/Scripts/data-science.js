@@ -16,3 +16,11 @@ $(document).ready(function () {
         $("#spinner").show();
     });
 });
+
+$(document).ready(function () {
+    $(".show-button").click(function (event) {
+        $("#myModal").modal("show");
+        $("#myModalLabel").text("Access List");
+        $("#outputsModalBody").val($.trim(event.target.children[0].innerText));
+    });
+});

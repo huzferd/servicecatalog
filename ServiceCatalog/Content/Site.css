@@ -111,10 +111,27 @@ textarea,
     width: 100%;   
 }
 
+.template-table-header-name {
+    min-width: 120px;
+}
+
 .navbar-nav li + li {
     border-left: 0.1px solid #222;
 }
 
 .table-striped > tbody > tr:nth-child(odd) > td {
     background-color: #3c3c3c;
+}
+
+.choose-button {
+    background: #2f2f2f;
+    border-color: #676767;
+    color: #ffffff;
+}
+
+.template-table-body-comment {
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

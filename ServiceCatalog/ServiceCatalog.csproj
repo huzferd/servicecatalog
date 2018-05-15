@@ -450,6 +450,7 @@
     <Content Include="Templates\Manage-VM.json" />
     <Content Include="Templates\Ubuntu-Server-Template.json" />
     <Content Include="Templates\Windows-Server-Template.json" />
+    <Content Include="Views\Shared\_TemplateView.cshtml" />
     <None Include="Web.DEV.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
