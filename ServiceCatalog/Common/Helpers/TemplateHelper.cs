@@ -46,7 +46,7 @@ namespace ServiceCatalog.Common.Helpers
         public static JObject PrepareTemplateParametersWithValues(string templateJson, Dictionary<string, string> parametersDictionary)
         {
             var template = JObject.Parse(templateJson);
-            
+
             var parametersSection = template[TemplateConstants.ParametersSection];
             if (parametersSection == null)
             {
@@ -77,10 +77,10 @@ namespace ServiceCatalog.Common.Helpers
 
             parameterFileContents[TemplateConstants.ParametersSection][TemplateConstants.AdminUserName][TemplateConstants.ValueSection] = new JValue(deploymentInput.VirtualMachineAdminUserName);
             parameterFileContents[TemplateConstants.ParametersSection][TemplateConstants.AdminPassword][TemplateConstants.ValueSection] = new JValue(deploymentInput.VirtualMachineAdminUserNamePassword);
-            
+
             parameterFileContents[TemplateConstants.ParametersSection][TemplateConstants.UserName][TemplateConstants.ValueSection] = new JValue(deploymentInput.VirtualMachineUserName);
             parameterFileContents[TemplateConstants.ParametersSection][TemplateConstants.UserPassword][TemplateConstants.ValueSection] = new JValue(deploymentInput.VirtualMachineUserNamePassword);
-            
+
             parameterFileContents[TemplateConstants.ParametersSection][TemplateConstants.DomainNameLabel][TemplateConstants.ValueSection] = new JValue(deploymentOutput.VirtualMachineDomainName);
             parameterFileContents[TemplateConstants.ParametersSection][TemplateConstants.VirtualMachineName][TemplateConstants.ValueSection] = new JValue(deploymentOutput.VirtualMachineName);
 
@@ -113,6 +113,7 @@ namespace ServiceCatalog.Common.Helpers
             var parameterValueJsonObject = parameterJsonProperty?.Value as JObject;
             var type = (parameterValueJsonObject?.Property("type").Value as JValue)?.Value as string;
             var allowedValues = (parameterValueJsonObject?.Property("allowedValues")?.Value as JArray)?.Values<string>().ToList();
+            var defaultValue = (parameterValueJsonObject?.Property("defaultValue")?.Value as JValue)?.Value as string;
 
             if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(type))
             {
@@ -127,13 +128,9 @@ namespace ServiceCatalog.Common.Helpers
                     : type == "securestring"
                         ? JsonTemplateParameterType.SecureString
                         : JsonTemplateParameterType.Unknown,
-                  AllowedValues = allowedValues
+                AllowedValues = allowedValues,
+                DefaultValue = defaultValue
             };
-
-            if (template.Type == JsonTemplateParameterType.Unknown)
-            {
-                throw new ServiceCatalogException("Unknown template parameter type in JSON.");
-            }
 
             return template;
         }

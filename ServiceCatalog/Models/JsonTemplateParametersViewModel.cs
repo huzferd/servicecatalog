@@ -29,6 +29,8 @@ namespace ServiceCatalog.Models
         public JsonTemplateParameterType Type { get; set; }
 
         public List<string> AllowedValues { get; set; }
+
+        public string DefaultValue { get; set; }
     }
 
     public enum JsonTemplateParameterType

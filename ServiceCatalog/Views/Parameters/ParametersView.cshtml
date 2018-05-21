@@ -68,7 +68,7 @@
                     }
                     else
                     {
-                        @Html.TextBox(Model.Parameters[i].Name, "", new { @class = "form-control" })
+                        @Html.TextBox(Model.Parameters[i].Name, Model.Parameters[i].DefaultValue, new { @class = "form-control" })
                     }
                 }
                 else if (Model.Parameters[i].Type == JsonTemplateParameterType.SecureString)
@@ -76,7 +76,6 @@
                     @Html.Password(Model.Parameters[i].Name, "", new { @class = "form-control" })
                     <div class="form-control-feedback"></div>
                 }
-                @Html.ValidationMessage(Model.Parameters[i].Name)
             </div>
         }
 

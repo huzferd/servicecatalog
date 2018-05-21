@@ -40,6 +40,8 @@ namespace ServiceCatalog.Migrations
                 var templateJson2 = File.ReadAllText(Path.Combine(baseDir, "Manage-VM.json"));
                 var templateJson3 = File.ReadAllText(Path.Combine(baseDir, "Ubuntu-Server-Template.json"));
                 var templateJson4 = File.ReadAllText(Path.Combine(baseDir, "Windows-Server-Template.json"));
+                var templateJson5 = File.ReadAllText(Path.Combine(baseDir, "Moodle-Minimal-Deployment.json"));
+                var templateJson6 = File.ReadAllText(Path.Combine(baseDir, "Moodle-Maximal-Deployment.json"));
 
                 context.TemplateJsons.AddOrUpdate(x => x.TemplateId,
                     new TemplateViewModel()
@@ -86,6 +88,30 @@ namespace ServiceCatalog.Migrations
                         TemplateJson = templateJson4,
                         TemplateName = "Windows-Server-Template.json",
                         Comment = "Windows Server Template",
+                        UserName = UserRoleHelper.AdminUserName,
+                        TemplateJsonVersion = "1.0",
+                        TemplateUsersGroup = "*"
+                    },
+                    new TemplateViewModel()
+                    {
+                        Date = DateTime.Now,
+                        IsManageTemplate = false,
+                        TemplateId = 5,
+                        TemplateJson = templateJson4,
+                        TemplateName = "Moodle-Minimal-Deployment.json",
+                        Comment = "This deployment will use NFS, Microsoft SQL, and smaller autoscale web frontend VM sku (1 core) that'll give faster deployment time (less than 30 minutes) and requires only 2 VM cores currently that'll fit even in a free trial Azure subscription.",
+                        UserName = UserRoleHelper.AdminUserName,
+                        TemplateJsonVersion = "1.0",
+                        TemplateUsersGroup = "*"
+                    },
+                    new TemplateViewModel()
+                    {
+                        Date = DateTime.Now,
+                        IsManageTemplate = false,
+                        TemplateId = 6,
+                        TemplateJson = templateJson4,
+                        TemplateName = "Moodle-Maximal-Deployment.json",
+                        Comment = "This maximal deployment will use Gluster (for high availability, adding 2 VMs for a Gluster cluster), MySQL with highest SKU, redis cache, elastic search (3 VMs), and pretty large storage sizes (both data disks and DB).",
                         UserName = UserRoleHelper.AdminUserName,
                         TemplateJsonVersion = "1.0",
                         TemplateUsersGroup = "*"

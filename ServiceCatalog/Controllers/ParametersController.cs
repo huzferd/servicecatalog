@@ -17,7 +17,7 @@ namespace ServiceCatalog.Controllers
     using Context;
     using Models;
 
-    public class ParametersController : Controller
+    public class ParametersController : BaseController
     {
         // GET: Parameters
         public async Task<ActionResult> ParametersView(
@@ -33,6 +33,8 @@ namespace ServiceCatalog.Controllers
             {
                 ViewBag.ErrorMessage = "Error";
                 ViewBag.ErrorDetails = ex.Message;
+                Log.Error(ex);
+
                 return View("Error");
             }
 

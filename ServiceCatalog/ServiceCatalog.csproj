@@ -451,6 +451,8 @@
     <Content Include="Templates\Ubuntu-Server-Template.json" />
     <Content Include="Templates\Windows-Server-Template.json" />
     <Content Include="Views\Shared\_TemplateView.cshtml" />
+    <Content Include="Templates\Moodle-Maximal-Deployment.json" />
+    <Content Include="Templates\Moodle-Minimal-Deployment.json" />
     <None Include="Web.DEV.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
