@@ -223,7 +223,7 @@
               "fileUris": [
                   "[concat(parameters('AssetsUrl'), 'post-install.sh')]"
               ],
-              "commandToExecute": "bash post-install.sh"
+              "commandToExecute": "bash ./post-install.sh"
           }
       }
   }
