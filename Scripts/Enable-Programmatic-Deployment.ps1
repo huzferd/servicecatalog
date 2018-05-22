@@ -34,7 +34,7 @@ catch {
 
 try {
     $agreementTerms = Get-AzureRmMarketplaceTerms -Publisher $Publisher -Product $Product -Name $Name
-    Write-Output Set-AzureRmMarketplaceTerms -Publisher $Publisher -Product $Product -Name $Name -Terms $agreementTerms -Accept
+    Set-AzureRmMarketplaceTerms -Publisher $Publisher -Product $Product -Name $Name -Terms $agreementTerms -Accept
 }
 catch {
     Write-Error -Message $_.Exception

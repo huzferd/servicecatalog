@@ -42,6 +42,8 @@ namespace ServiceCatalog.Migrations
                 var templateJson4 = File.ReadAllText(Path.Combine(baseDir, "Windows-Server-Template.json"));
                 var templateJson5 = File.ReadAllText(Path.Combine(baseDir, "Moodle-Minimal-Deployment.json"));
                 var templateJson6 = File.ReadAllText(Path.Combine(baseDir, "Moodle-Maximal-Deployment.json"));
+                var templateJson7 = File.ReadAllText(Path.Combine(baseDir, "Enable-Programmatic-Deployment.json"));
+                var templateJson8 = File.ReadAllText(Path.Combine(baseDir, "Manage-Group-Membership.json"));
 
                 context.TemplateJsons.AddOrUpdate(x => x.TemplateId,
                     new TemplateViewModel()
@@ -97,7 +99,7 @@ namespace ServiceCatalog.Migrations
                         Date = DateTime.Now,
                         IsManageTemplate = false,
                         TemplateId = 5,
-                        TemplateJson = templateJson4,
+                        TemplateJson = templateJson5,
                         TemplateName = "Moodle-Minimal-Deployment.json",
                         Comment = "This deployment will use NFS, Microsoft SQL, and smaller autoscale web frontend VM sku (1 core) that'll give faster deployment time (less than 30 minutes) and requires only 2 VM cores currently that'll fit even in a free trial Azure subscription.",
                         UserName = UserRoleHelper.AdminUserName,
@@ -109,9 +111,33 @@ namespace ServiceCatalog.Migrations
                         Date = DateTime.Now,
                         IsManageTemplate = false,
                         TemplateId = 6,
-                        TemplateJson = templateJson4,
+                        TemplateJson = templateJson6,
                         TemplateName = "Moodle-Maximal-Deployment.json",
                         Comment = "This maximal deployment will use Gluster (for high availability, adding 2 VMs for a Gluster cluster), MySQL with highest SKU, redis cache, elastic search (3 VMs), and pretty large storage sizes (both data disks and DB).",
+                        UserName = UserRoleHelper.AdminUserName,
+                        TemplateJsonVersion = "1.0",
+                        TemplateUsersGroup = "*"
+                    },
+                    new TemplateViewModel()
+                    {
+                        Date = DateTime.Now,
+                        IsManageTemplate = false,
+                        TemplateId = 7,
+                        TemplateJson = templateJson7,
+                        TemplateName = "Enable-Programmatic-Deployment.json",
+                        Comment = "Accept or reject terms for a given publisher id(Publisher), offer id(Product) and plan id(Name). Please use Get-AzureRmMarketplaceTerms to get the agreement terms.",
+                        UserName = UserRoleHelper.AdminUserName,
+                        TemplateJsonVersion = "1.0",
+                        TemplateUsersGroup = "*"
+                    },
+                    new TemplateViewModel()
+                    {
+                        Date = DateTime.Now,
+                        IsManageTemplate = false,
+                        TemplateId = 8,
+                        TemplateJson = templateJson8,
+                        TemplateName = "Manage-Group-Membership.json",
+                        Comment = "The Add-AzureADGroupMember cmdlet adds a member to a group.",
                         UserName = UserRoleHelper.AdminUserName,
                         TemplateJsonVersion = "1.0",
                         TemplateUsersGroup = "*"
