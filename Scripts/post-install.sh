@@ -1,16 +1,38 @@
 #!/bin/bash
-apt-get -qq update
-apt-get -qq --yes install python-pip python-dev build-essential python-virtualenv
-pip install --upgrade virtualenv 
-pip install tensorflow-gpu pandas astropy pydl --user
-apt-get -qq --yes install libcupti-dev
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/usr/local/cuda/extras/CUPTI/lib64
-python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose 
-apt-get -qq --yes install pkg-config zip g++ zlib1g-dev unzip python
-wget 'https://github.com/bazelbuild/bazel/releases/download/0.13.0/bazel-0.13.0-installer-linux-x86_64.sh' 
-chmod +x bazel-0.13.0-installer-linux-x86_64.sh 
-./bazel-0.13.0-installer-linux-x86_64.sh --user 
-rm ./bazel-0.13.0-installer-linux-x86_64.sh -y 
-export PATH="$PATH:$HOME/bin" 
-pip install --upgrade absl-py
+
+log() {
+    echo "[post-install] $1"
+    date
+}
+
+log "Starting post install on pid $$"
+
+log "Update package database"
+sudo apt-get update -y
+
+log " Install required packages"
+sudo apt-get install pkg-config zip g++ zlib1g-dev unzip python
+
+log "Install python packages"
+sudo apt-get -y install python-numpy python-dev python-wheel python-mock python-matplotlib python-pip python-pandas python-virtualenv
+
+log "Upgrading pip"
+pip install --upgrade pip
+pip install --upgrade virtualenv
+
+log "Install tensorflow"
+pip install numpy scipy matplotlib ipython jupyter pandas sympy nose --user 
+pip install tensorflow-gpu pandas astropy pydl absl-py --user
+
+log "Install Bazel"
+wget 'https://github.com/bazelbuild/bazel/releases/download/0.13.0/bazel-0.13.0-installer-linux-x86_64.sh'
+chmod +x bazel-0.13.0-installer-linux-x86_64.sh
+./bazel-0.13.0-installer-linux-x86_64.sh --user
+rm ./bazel-0.13.0-installer-linux-x86_64.sh -y
+
+log "Update bashrc"
+echo 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}/usr/local/cuda/extras/CUPTI/lib64' >> ~/.bashrc
+echo 'export PATH="$PATH:$HOME/bin"' >> ~/.bashrc
+
+log "Clone git repo"
 git clone https://github.com/tensorflow/models.git
