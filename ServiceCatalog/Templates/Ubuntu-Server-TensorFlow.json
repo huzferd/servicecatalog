@@ -4,11 +4,17 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "location": {
+      "defaultValue": "West US 2",
       "type": "string",
-      "metadata": {
-        "description": "The region to deploy the resources into"
-      }
-    },
+      "allowedValues": [
+          "East US 2",
+          "East US",
+          "North Central US",
+          "South Central US",
+          "West Central US",
+          "West US 2"
+      ]
+  },
     "adminUsername": {
       "type": "string",
       "metadata": {
