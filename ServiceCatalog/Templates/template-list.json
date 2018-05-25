@@ -1,0 +1,56 @@
+[
+    {
+        "TemplateName": "Billing-Invoice.json",
+        "Comment": "Download or view your Azure billing invoice and daily usage data",
+        "TemplateJsonVersion": "1.0",
+        "TemplateUsersGroup": "*"
+    },
+    {
+        "TemplateName": "Manage-VM.json",
+        "Comment": "Manage VM",
+        "TemplateJsonVersion": "1.0",
+        "TemplateUsersGroup": "*"
+    },
+    {
+        "TemplateName": "Ubuntu-Server-Template.json",
+        "Comment": "Ubuntu Server Template",
+        "TemplateJsonVersion": "1.0",
+        "TemplateUsersGroup": "*"
+    },
+    {
+        "TemplateName": "Windows-Server-Template.json",
+        "Comment": "Windows Server Template",
+        "TemplateJsonVersion": "1.0",
+        "TemplateUsersGroup": "*"
+    },
+    {
+        "TemplateName": "Moodle-Minimal-Deployment.json",
+        "Comment": "This deployment will use NFS, Microsoft SQL, and smaller autoscale web frontend VM sku (1 core) that'll give faster deployment time (less than 30 minutes) and requires only 2 VM cores currently that'll fit even in a free trial Azure subscription.",
+        "TemplateJsonVersion": "1.0",
+        "TemplateUsersGroup": "*"
+    },
+    {
+        "TemplateName": "Moodle-Maximal-Deployment.json",
+        "Comment": "This maximal deployment will use Gluster (for high availability, adding 2 VMs for a Gluster cluster), MySQL with highest SKU, redis cache, elastic search (3 VMs), and pretty large storage sizes (both data disks and DB).",
+        "TemplateJsonVersion": "1.0",
+        "TemplateUsersGroup": "*"
+    },
+    {
+        "TemplateName": "Enable-Programmatic-Deployment.json",
+        "Comment": "Accept or reject terms for a given publisher id(Publisher), offer id(Product) and plan id(Name). Please use Get-AzureRmMarketplaceTerms to get the agreement terms.",
+        "TemplateJsonVersion": "1.0",
+        "TemplateUsersGroup": "*"
+    },
+    {
+        "TemplateName": "Manage-Group-Membership.json",
+        "Comment": "The Add-AzureADGroupMember cmdlet adds a member to a group. e.g. publisher: microsoft-ads; product: windows-data-science-vm; name: windows-data-science-vm",
+        "TemplateJsonVersion": "1.0",
+        "TemplateUsersGroup": "*"
+    },
+    {
+        "TemplateName": "Ubuntu-Server-TensorFlow.json",
+        "Comment": "This Ubuntu Server template have TensorFlow on GPUs using N-series Azure VM instances",
+        "TemplateJsonVersion": "1.0",
+        "TemplateUsersGroup": "*"
+    }
+]

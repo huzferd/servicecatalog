@@ -347,6 +347,7 @@
       <DependentUpon>201805041121252_Jobs.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Common\Helpers\Template.cs" />
     <Compile Include="Models\AutomationAccount.cs" />
     <Compile Include="Models\CompliteStateViewModel.cs" />
     <Compile Include="Models\DeploymentViewModel.cs" />
@@ -453,6 +454,10 @@
     <Content Include="Views\Shared\_TemplateView.cshtml" />
     <Content Include="Templates\Moodle-Maximal-Deployment.json" />
     <Content Include="Templates\Moodle-Minimal-Deployment.json" />
+    <Content Include="Templates\Enable-Programmatic-Deployment.json" />
+    <Content Include="Templates\template-list.json" />
+    <Content Include="Templates\Ubuntu-Server-TensorFlow.json" />
+    <Content Include="Templates\Manage-Group-Membership.json" />
     <None Include="Web.DEV.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

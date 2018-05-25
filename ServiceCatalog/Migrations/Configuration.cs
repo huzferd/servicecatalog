@@ -4,7 +4,6 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-
 namespace ServiceCatalog.Migrations
 {
     using System;
@@ -14,8 +13,10 @@ namespace ServiceCatalog.Migrations
     using System.IO;
     using NLog;
     using System.Linq;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Context.WebAppContext>
+    internal sealed partial class Configuration : DbMigrationsConfiguration<Context.WebAppContext>
     {
         public Configuration()
         {
@@ -33,122 +34,33 @@ namespace ServiceCatalog.Migrations
                     return;
                 }
 
-                var baseDir = AppDomain.CurrentDomain.BaseDirectory.Replace("\\bin", string.Empty) + "\\Templates";
-                log.Info($"Base Dir: {baseDir}");
-                log.Info($"templateJson1 path: {Path.Combine(baseDir, "Billing-Invoice.json")}");
-                var templateJson1 = File.ReadAllText(Path.Combine(baseDir, "Billing-Invoice.json"));
-                var templateJson2 = File.ReadAllText(Path.Combine(baseDir, "Manage-VM.json"));
-                var templateJson3 = File.ReadAllText(Path.Combine(baseDir, "Ubuntu-Server-Template.json"));
-                var templateJson4 = File.ReadAllText(Path.Combine(baseDir, "Windows-Server-Template.json"));
-                var templateJson5 = File.ReadAllText(Path.Combine(baseDir, "Moodle-Minimal-Deployment.json"));
-                var templateJson6 = File.ReadAllText(Path.Combine(baseDir, "Moodle-Maximal-Deployment.json"));
-                var templateJson7 = File.ReadAllText(Path.Combine(baseDir, "Enable-Programmatic-Deployment.json"));
-                var templateJson8 = File.ReadAllText(Path.Combine(baseDir, "Manage-Group-Membership.json"));
-
-                context.TemplateJsons.AddOrUpdate(x => x.TemplateId,
-                    new TemplateViewModel()
-                    {
-                        Date = DateTime.Now,
-                        IsManageTemplate = true,
-                        TemplateId = 1,
-                        TemplateJson = templateJson1,
-                        TemplateName = "Billing-Invoice.json",
-                        Comment = "Billing Invoice",
-                        UserName = UserRoleHelper.AdminUserName,
-                        TemplateJsonVersion = "1.0",
-                        TemplateUsersGroup = "*"
-                    },
-                    new TemplateViewModel()
-                    {
-                        Date = DateTime.Now,
-                        IsManageTemplate = true,
-                        TemplateId = 2,
-                        TemplateJson = templateJson2,
-                        TemplateName = "Manage-VM.json",
-                        Comment = "Manage VM",
-                        UserName = UserRoleHelper.AdminUserName,
-                        TemplateJsonVersion = "1.0",
-                        TemplateUsersGroup = "*"
-                    },
-                    new TemplateViewModel()
-                    {
-                        Date = DateTime.Now,
-                        IsManageTemplate = false,
-                        TemplateId = 3,
-                        TemplateJson = templateJson3,
-                        TemplateName = "Ubuntu-Server-Template.json",
-                        Comment = "Ubuntu Server Template",
-                        UserName = UserRoleHelper.AdminUserName,
-                        TemplateJsonVersion = "1.0",
-                        TemplateUsersGroup = "*"
-                    },
-                    new TemplateViewModel()
-                    {
-                        Date = DateTime.Now,
-                        IsManageTemplate = false,
-                        TemplateId = 4,
-                        TemplateJson = templateJson4,
-                        TemplateName = "Windows-Server-Template.json",
-                        Comment = "Windows Server Template",
-                        UserName = UserRoleHelper.AdminUserName,
-                        TemplateJsonVersion = "1.0",
-                        TemplateUsersGroup = "*"
-                    },
-                    new TemplateViewModel()
-                    {
-                        Date = DateTime.Now,
-                        IsManageTemplate = false,
-                        TemplateId = 5,
-                        TemplateJson = templateJson5,
-                        TemplateName = "Moodle-Minimal-Deployment.json",
-                        Comment = "This deployment will use NFS, Microsoft SQL, and smaller autoscale web frontend VM sku (1 core) that'll give faster deployment time (less than 30 minutes) and requires only 2 VM cores currently that'll fit even in a free trial Azure subscription.",
-                        UserName = UserRoleHelper.AdminUserName,
-                        TemplateJsonVersion = "1.0",
-                        TemplateUsersGroup = "*"
-                    },
-                    new TemplateViewModel()
-                    {
-                        Date = DateTime.Now,
-                        IsManageTemplate = false,
-                        TemplateId = 6,
-                        TemplateJson = templateJson6,
-                        TemplateName = "Moodle-Maximal-Deployment.json",
-                        Comment = "This maximal deployment will use Gluster (for high availability, adding 2 VMs for a Gluster cluster), MySQL with highest SKU, redis cache, elastic search (3 VMs), and pretty large storage sizes (both data disks and DB).",
-                        UserName = UserRoleHelper.AdminUserName,
-                        TemplateJsonVersion = "1.0",
-                        TemplateUsersGroup = "*"
-                    },
-                    new TemplateViewModel()
-                    {
-                        Date = DateTime.Now,
-                        IsManageTemplate = false,
-                        TemplateId = 7,
-                        TemplateJson = templateJson7,
-                        TemplateName = "Enable-Programmatic-Deployment.json",
-                        Comment = "Accept or reject terms for a given publisher id(Publisher), offer id(Product) and plan id(Name). Please use Get-AzureRmMarketplaceTerms to get the agreement terms.",
-                        UserName = UserRoleHelper.AdminUserName,
-                        TemplateJsonVersion = "1.0",
-                        TemplateUsersGroup = "*"
-                    },
-                    new TemplateViewModel()
-                    {
-                        Date = DateTime.Now,
-                        IsManageTemplate = false,
-                        TemplateId = 8,
-                        TemplateJson = templateJson8,
-                        TemplateName = "Manage-Group-Membership.json",
-                        Comment = "The Add-AzureADGroupMember cmdlet adds a member to a group.",
-                        UserName = UserRoleHelper.AdminUserName,
-                        TemplateJsonVersion = "1.0",
-                        TemplateUsersGroup = "*"
-                    }
-                );
+                context.TemplateJsons.AddOrUpdate(x => x.TemplateId, GetTemplates());
                 context.SaveChanges();
             }
             catch (Exception ex)
             {
                 log.Error(ex);
             }
+        }
+
+        private static TemplateViewModel[] GetTemplates()
+        {
+            var baseDir = AppDomain.CurrentDomain.BaseDirectory.Replace("\\bin", string.Empty) + "\\Templates";
+            var templateListFile = File.ReadAllText(Path.Combine(baseDir, "template-list.json"));
+            var templates = JsonConvert.DeserializeObject<List<Template>>(templateListFile);
+
+            return templates.Select((template, i) => new TemplateViewModel()
+            {
+                Date = DateTime.Now,
+                IsManageTemplate = template.IsManage,
+                TemplateId = i,
+                TemplateJson = File.ReadAllText(Path.Combine(baseDir, template.Name)),
+                TemplateName = template.Name,
+                Comment = template.Comment,
+                UserName = UserRoleHelper.AdminUserName,
+                TemplateJsonVersion = template.Version,
+                TemplateUsersGroup = template.UsersGroup
+            }).ToArray();
         }
     }
 }
