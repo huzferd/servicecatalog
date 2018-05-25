@@ -45,7 +45,7 @@ namespace ServiceCatalog.Migrations
 
         private static TemplateViewModel[] GetTemplates()
         {
-            var baseDir = AppDomain.CurrentDomain.BaseDirectory.Replace("\\bin", string.Empty) + "\\Templates";
+            var baseDir = AppDomain.CurrentDomain.BaseDirectory.Replace("\\bin", string.Empty) + "\\Templates\\";
             var templateListFile = File.ReadAllText(Path.Combine(baseDir, "template-list.json"));
             var templates = JsonConvert.DeserializeObject<List<Template>>(templateListFile);
 

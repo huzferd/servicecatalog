@@ -396,12 +396,6 @@
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Properties\PublishProfiles\serviceApp200 - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\serviceApp200 - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\serviceApp23 - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\serviceApp23 - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\servicecatalogapp - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\servicecatalogapp - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
