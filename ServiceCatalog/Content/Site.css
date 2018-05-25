@@ -53,6 +53,26 @@ textarea,
     max-width: 450px;
 }
 
+@keyframes spinner {
+    to {transform: rotate(360deg);}
+}
+ 
+.spinner:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin-top: -15px;
+    margin-left: -15px;
+    border-radius: 50%;
+    border: 3px solid #ccc;
+    border-top-color: #07d;
+    animation: spinner .6s linear infinite;
+}
+
 .spinner {
     position: fixed;
     text-align: center;
@@ -63,7 +83,7 @@ textarea,
     width: 100%;
     height: 100%;
     z-index: 30001;
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(113, 113, 113, 0.5);
     filter: alpha(opacity=70);
 }
 
