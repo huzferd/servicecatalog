@@ -43,14 +43,14 @@
     },
     {
         "Name": "Enable-Programmatic-Deployment.json",
-        "Comment": "Accept or reject terms for a given publisher id(Publisher), offer id(Product) and plan id(Name). E.g. publisher: microsoft-ads; product: windows-data-science-vm; name: windows-data-science-vm",
+        "Comment": "Accept terms for a given publisher id(Publisher), offer id(Product) and plan id(Name). E.g. publisher: microsoft-ads; product: windows-data-science-vm; name: windows-data-science-vm",
         "IsManage": true,
         "Version": "1.0",
         "UsersGroup": "*"
     },
     {
         "Name": "Manage-Group-Membership.json",
-        "Comment": "This template allow to adds a member to a group. E.g. groupName: Administrator; userName: user@contoso.com",
+        "Comment": "This template allow to adds a member to AAD Group. E.g. groupName: Administrator; userName: user@contoso.com",
         "IsManage": true,
         "Version": "1.0",
         "UsersGroup": "*"
