@@ -38,7 +38,7 @@
         <div class="form-group">
             @Html.LabelFor(m => m.Comment, new { @class = "col-sm-2 control-label" })
             <div class="col-md-4">
-                @Html.TextBoxFor(m => m.Comment, new { @class = "add-template-input form-control" })
+                @Html.TextAreaFor(m => m.Comment, new { @class = "add-template-input form-control", style = "height: 100px;" })
                 @Html.ValidationMessageFor(m => m.Comment)
             </div>
         </div>

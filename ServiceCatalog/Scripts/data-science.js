@@ -24,3 +24,11 @@ $(document).ready(function () {
         $("#outputsModalBody").val($.trim(event.target.children[0].innerText));
     });
 });
+
+$(document).ready(function () {
+    $(".show-comment-text").click(function (event) {
+        $("#myModal").modal("show");
+        $("#myModalLabel").text("Comments");
+        $("#outputsModalBody").val($.trim(event.target.innerText));
+    });
+});

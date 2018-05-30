@@ -10,7 +10,7 @@ log "Starting post install on pid $$"
 log "Update package database"
 sudo apt-get update -y
 
-log " Install required packages"
+log "Install required packages"
 sudo apt-get install -y pkg-config zip g++ zlib1g-dev unzip python ipython
 
 log "Install python packages"

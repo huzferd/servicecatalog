@@ -20,7 +20,11 @@
             {
                 <tr>
                     <td>@template.TemplateName</td>
-                    <td class="template-table-body-comment" title="@template.Comment">@template.Comment</td>
+                    <td>
+                        <a class="show-comment-text" data-toggle="modal" data-target="#outputsModal">
+                            <p class="template-table-body-comment">@template.Comment</p>
+                        </a>
+                    </td>
                     <td>@template.TemplateJsonVersion</td>
                     <td>
                         <div class="col-md-3">
