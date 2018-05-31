@@ -50,8 +50,8 @@
     }
   },
   "variables": {
-    "masterTemplateLink": "https://raw.githubusercontent.com/huzferd/servicecatalog/master/ServiceCatalog/Templates/Ubuntu-Server-Master.json",
-    "slaveTemplateLink": "https://raw.githubusercontent.com/huzferd/servicecatalog/master/ServiceCatalog/Templates/Ubuntu-Server-Local.json"
+    "masterTemplateLink": "https://raw.githubusercontent.com/huzferd/servicecatalog/templates/ServiceCatalog/Templates/Ubuntu-Server-Master.json",
+    "slaveTemplateLink": "https://raw.githubusercontent.com/huzferd/servicecatalog/templates/ServiceCatalog/Templates/Ubuntu-Server-Local.json"
    },
   "resources": [
     {
