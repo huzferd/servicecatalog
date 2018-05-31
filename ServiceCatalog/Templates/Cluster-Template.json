@@ -27,13 +27,6 @@
         "description": "Virtual machine administrator password"
       }
     },
-    "virtualNetworkName": {
-      "type": "string",
-      "defaultValue": "vnet",
-      "metadata": {
-        "description": "Virtual network name"
-      }
-    },
     "virtualMachineName": {
       "type": "string",
       "defaultValue": "edu",

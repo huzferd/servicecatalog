@@ -162,7 +162,7 @@
       }
     },
     {
-      "name": "[variables('networkSecurityGroupName')]",
+      "name": "[concat(variables('networkSecurityGroupName'), parameters('virtualMachineName'))]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "apiVersion": "2017-06-01",
       "location": "[parameters('location')]",
