@@ -26,6 +26,12 @@
         "description": "Password for the Virtual Machine."
       }
     },
+    "dnsLabelPrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
+      }
+    },
     "ubuntuOSVersion": {
       "type": "string",
       "defaultValue": "16.04.0-LTS",
@@ -66,16 +72,16 @@
         "description": "MASTER of SLAVE in cluster or SINGLE without cluster"
       }
     },
-    "networkInterfaceName": {
+    "masterNodeIp": {
       "type": "string",
-      "defaultValue": "network-interface",
+      "defaultValue": "0.0.0.0",
       "metadata": {
-        "description": "Network interface name"
+        "description": ""
       }
     },
     "privateIPAddress": {
       "type": "string",
-      "defaultValue": "10.0.0.5",
+      "defaultValue": "10.0.0.4",
       "metadata": {
         "description": "Private ip address"
       }
@@ -87,6 +93,8 @@
     "virtualNetworkName": "virtual-network",
     "networkInterfaceName": "network-inteface",
     "networkSecurityGroupName": "network-security-group",
+    "publicIPAddressName": "public-ip-address",
+    "publicIPAddressType": "Dynamic",
     "addressPrefix": "10.0.0.0/16",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetName": "Subnet",
@@ -100,7 +108,7 @@
       "apiVersion": "2017-03-30",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]"
       ],
       "properties": {
         "osProfile": {
@@ -129,7 +137,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
             }
           ]
         }
@@ -157,33 +165,56 @@
       }
     },
     {
-      "name": "[parameters('networkInterfaceName')]",
+      "name": "[variables('networkInterfaceName')]",
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2016-09-01",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+        "[concat('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName'))]",
         "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
       ],
       "properties": {
         "ipConfigurations": [
           {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[parameters('privateIPAddress')]",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName'))]"
-              },
-              "subnet": {
-                "id": "[parameters('subnetRef')]"
+            "ipConfigurations": [
+              {
+                "name": "ipconfig1",
+                "properties": {
+                  "privateIPAllocationMethod": "Static",
+                  "privateIPAddress": "[parameters('privateIPAddress')]",
+                  "publicIPAddress": {
+                    "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName'))]"
+                  },
+                  "subnet": {
+                    "id": "[parameters('subnetRef')]"
+                  }
+                }
               }
+            ],
+            "networkSecurityGroup": {
+              "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
             }
           }
         ],
         "networkSecurityGroup": {
           "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
         }
+      }
+    },
+    {
+      "name": "[variables('publicIpAddressName')]",
+      "type": "Microsoft.Network/publicIpAddresses",
+      "apiVersion": "2017-08-01",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('dnsLabelPrefix')]"
+        }
+      },
+      "sku": {
+        "name": "Basic"
       }
     },
     {
@@ -204,32 +235,6 @@
               "sourcePortRange": "*",
               "destinationAddressPrefix": "*",
               "destinationPortRange": "22"
-            }
-          },
-          {
-            "name": "default-allow-tf1",
-            "properties": {
-              "priority": 1000,
-              "protocol": "TCP",
-              "access": "Allow",
-              "direction": "Inbound",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "2222"
-            }
-          },
-          {
-            "name": "default-allow-tf1",
-            "properties": {
-              "priority": 1000,
-              "protocol": "TCP",
-              "access": "Allow",
-              "direction": "Inbound",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "2223"
             }
           }
         ]
@@ -257,5 +262,14 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "hostname": {
+      "type": "string",
+      "value": "[reference(variables('publicIPAddressName')).dnsSettings.fqdn]"
+    },
+    "sshCommand": {
+      "type": "string",
+      "value": "[concat('ssh ', parameters('adminUsername'), '@', reference(variables('publicIPAddressName')).dnsSettings.fqdn)]"
+    }
+  }
 }

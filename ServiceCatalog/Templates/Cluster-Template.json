@@ -77,13 +77,11 @@
       "name": "master-node",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'shared')]"
-      ],
+      "dependsOn": [],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/huzferd/servicecatalog/master/ServiceCatalog/Templates/Ubuntu-Server-Template.json",
+          "uri": "https://raw.githubusercontent.com/huzferd/servicecatalog/master/ServiceCatalog/Templates/Ubuntu-Server-Master.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
