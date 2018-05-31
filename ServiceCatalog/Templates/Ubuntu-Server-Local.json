@@ -185,7 +185,7 @@
             }
           },
           {
-            "name": "default-allow-tf1",
+            "name": "default-allow-tf2",
             "properties": {
               "priority": 1000,
               "protocol": "TCP",
