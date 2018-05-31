@@ -52,13 +52,6 @@
         "description": "Select the size of the machine. This VM requires NC class machines which are only available in EAST US, NORTH CENTRAL US, SOUTH CENTRAL US, and WEST US 2."
       }
     },
-    "AssetsUrl": {
-      "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/huzferd/servicecatalog/master/Scripts/",
-      "metadata": {
-        "description": "The base URL for dependent assets"
-      }
-    },
     "nodeType": {
       "type": "string",
       "defaultValue": "SINGLE",
@@ -85,12 +78,9 @@
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
     "virtualNetworkName": "virtual-network",
-    "networkInterfaceName": "network-inteface",
-    "networkSecurityGroupName": "network-security-group",
-    "addressPrefix": "10.0.0.0/16",
+    "networkSecurityGroupName": "[concat('network-security-group', parameters('virtualMachineName'))]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetName": "Subnet",
-    "subnetPrefix": "10.0.0.0/24",
     "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]"
   },
   "resources": [
@@ -136,33 +126,11 @@
       }
     },
     {
-      "name": "[variables('virtualNetworkName')]",
-      "type": "Microsoft.Network/virtualNetworks",
-      "apiVersion": "2018-02-01",
-      "location": "[parameters('location')]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[variables('addressPrefix')]"
-          ]
-        },
-        "subnets": [
-          {
-            "name": "[variables('subnetName')]",
-            "properties": {
-              "addressPrefix": "[variables('subnetPrefix')]"
-            }
-          }
-        ]
-      }
-    },
-    {
       "name": "[parameters('networkInterfaceName')]",
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2016-09-01",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
         "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
       ],
       "properties": {
@@ -172,11 +140,8 @@
             "properties": {
               "privateIPAllocationMethod": "Static",
               "privateIPAddress": "[parameters('privateIPAddress')]",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName'))]"
-              },
               "subnet": {
-                "id": "[parameters('subnetRef')]"
+                "id": "[variables('subnetRef')]"
               }
             }
           }
@@ -205,32 +170,6 @@
               "destinationAddressPrefix": "*",
               "destinationPortRange": "22"
             }
-          },
-          {
-            "name": "default-allow-tf1",
-            "properties": {
-              "priority": 1000,
-              "protocol": "TCP",
-              "access": "Allow",
-              "direction": "Inbound",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "2222"
-            }
-          },
-          {
-            "name": "default-allow-tf1",
-            "properties": {
-              "priority": 1000,
-              "protocol": "TCP",
-              "access": "Allow",
-              "direction": "Inbound",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "2223"
-            }
           }
         ]
       }
@@ -250,7 +189,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://gist.githubusercontent.com/AynurLatypov/838e7ad9b0ba174a0849ddbd6391f999/raw/1a0c56fda98ff44e10eee2baa9ae042800c7b408/post-install.sh"
+            "https://raw.githubusercontent.com/huzferd/servicecatalog/master/Scripts/post-install.sh"
           ],
           "commandToExecute": "[concat('bash ./post-install.sh ', parameters('nodeType'))]"
         }
