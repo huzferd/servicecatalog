@@ -229,32 +229,6 @@
               "destinationAddressPrefix": "*",
               "destinationPortRange": "22"
             }
-          },
-          {
-            "name": "default-allow-tf1",
-            "properties": {
-              "priority": 1000,
-              "protocol": "TCP",
-              "access": "Allow",
-              "direction": "Inbound",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "2222"
-            }
-          },
-          {
-            "name": "default-allow-tf2",
-            "properties": {
-              "priority": 1000,
-              "protocol": "TCP",
-              "access": "Allow",
-              "direction": "Inbound",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*",
-              "destinationPortRange": "2223"
-            }
           }
         ]
       }
