@@ -52,13 +52,6 @@
         "description": "Select the size of the machine. This VM requires NC class machines which are only available in EAST US, NORTH CENTRAL US, SOUTH CENTRAL US, and WEST US 2."
       }
     },
-    "AssetsUrl": {
-      "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/huzferd/servicecatalog/master/Scripts/",
-      "metadata": {
-        "description": "The base URL for dependent assets"
-      }
-    },
     "nodeType": {
       "type": "string",
       "defaultValue": "SINGLE",
@@ -84,13 +77,10 @@
   "variables": {
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
-    "virtualNetworkName": "virtual-network",
-    "networkInterfaceName": "network-inteface",
-    "networkSecurityGroupName": "network-security-group",
-    "addressPrefix": "10.0.0.0/16",
+    "virtualNetworkName": "[concat('virtual-network', parameters('virtualMachineName'))]",
+    "networkSecurityGroupName": "[concat('network-security-group', parameters('virtualMachineName'))]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetName": "Subnet",
-    "subnetPrefix": "10.0.0.0/24",
     "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('subnetName'))]"
   },
   "resources": [
@@ -141,7 +131,7 @@
       "apiVersion": "2016-09-01",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/networkSecurityGroups/', concat(variables('networkSecurityGroupName'), parameters('virtualMachineName')))]"
+        "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -157,12 +147,12 @@
           }
         ],
         "networkSecurityGroup": {
-          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(variables('networkSecurityGroupName'), parameters('virtualMachineName')))]"
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
         }
       }
     },
     {
-      "name": "[concat(variables('networkSecurityGroupName'), parameters('virtualMachineName'))]",
+      "name": "[variables('networkSecurityGroupName')]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "apiVersion": "2017-06-01",
       "location": "[parameters('location')]",
