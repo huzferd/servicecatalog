@@ -247,7 +247,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://gist.githubusercontent.com/AynurLatypov/838e7ad9b0ba174a0849ddbd6391f999/raw/1a0c56fda98ff44e10eee2baa9ae042800c7b408/post-install.sh"
+            "https://raw.githubusercontent.com/huzferd/servicecatalog/master/Scripts/post-install.sh"
           ],
           "commandToExecute": "[concat('bash ./post-install.sh ', parameters('nodeType'))]"
         }
