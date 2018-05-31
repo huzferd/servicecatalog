@@ -184,7 +184,7 @@
                   "privateIPAllocationMethod": "Static",
                   "privateIPAddress": "[parameters('privateIPAddress')]",
                   "publicIPAddress": {
-                    "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName'))]"
+                    "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
                   },
                   "subnet": {
                     "id": "[parameters('subnetRef')]"

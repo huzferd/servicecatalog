@@ -50,28 +50,9 @@
     }
   },
   "variables": {
-    "networkSettings": {
-      "vnetName": "[parameters('virtualNetworkName')]",
-      "addressPrefix": "10.0.0.0/16",
-      "subnets": {
-        "dmz": {
-          "name": "dmz",
-          "prefix": "10.0.0.0/24",
-          "vnet": "[parameters('virtualNetworkName')]"
-        },
-        "data": {
-          "name": "data",
-          "prefix": "10.0.1.0/24",
-          "vnet": "[parameters('virtualNetworkName')]"
-        }
-      }
-    },
-    "availabilitySetSettings": {
-      "name": "sparkAvailabilitySet",
-      "fdCount": 3,
-      "udCount": 5
-    }
-  },
+    "masterTemplateLink": "https://raw.githubusercontent.com/huzferd/servicecatalog/master/ServiceCatalog/Templates/Ubuntu-Server-Master.json",
+    "slaveTemplateLink": "https://raw.githubusercontent.com/huzferd/servicecatalog/master/ServiceCatalog/Templates/Ubuntu-Server-Local.json"
+   },
   "resources": [
     {
       "name": "master-node",
@@ -81,7 +62,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/huzferd/servicecatalog/master/ServiceCatalog/Templates/Ubuntu-Server-Master.json",
+          "uri": "[variables('masterTemplateLink')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -119,12 +100,12 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/huzferd/servicecatalog/master/ServiceCatalog/Templates/Ubuntu-Server-Local.json",
+          "uri": "[variables('slaveTemplateLink')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
           "location": {
-            "value": "West US 2"
+            "value": "[parameters('location')]"
           },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
@@ -157,12 +138,12 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/huzferd/servicecatalog/master/ServiceCatalog/Templates/Ubuntu-Server-Local.json",
+          "uri": "[variables('slaveTemplateLink')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
           "location": {
-            "value": "West US 2"
+            "value": "[parameters('location')]"
           },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
