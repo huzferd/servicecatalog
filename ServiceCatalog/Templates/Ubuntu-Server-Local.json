@@ -77,7 +77,7 @@
   "variables": {
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
-    "virtualNetworkName": "[concat('virtual-network', parameters('virtualMachineName'))]",
+    "virtualNetworkName": "virtual-network",
     "networkSecurityGroupName": "[concat('network-security-group', parameters('virtualMachineName'))]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetName": "Subnet",

@@ -92,7 +92,7 @@
     "imageOffer": "UbuntuServer",
     "virtualNetworkName": "virtual-network",
     "networkInterfaceName": "network-inteface",
-    "networkSecurityGroupName": "network-security-group",
+    "networkSecurityGroupName": "[concat('network-security-group', parameters('virtualMachineName'))]",
     "publicIPAddressName": "public-ip-address",
     "publicIPAddressType": "Dynamic",
     "addressPrefix": "10.0.0.0/16",
@@ -211,7 +211,7 @@
       }
     },
     {
-      "name": "[concat(variables('networkSecurityGroupName'), parameters('virtualMachineName'))]",
+      "name": "[variables('networkSecurityGroupName')]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "apiVersion": "2017-06-01",
       "location": "[parameters('location')]",
