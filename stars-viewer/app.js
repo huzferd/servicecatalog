@@ -10,6 +10,21 @@ app.use(express.json())
 app.get('', (req, res) => {
   res.sendFile(path.join(__dirname, "./public/index.html"))
 })
+app.get('/export', (req, res) => {
+  var d3 = fs.readFileSync(path.join(__dirname, "./public/js/d3.min.js"))
+  var geo = fs.readFileSync(path.join(__dirname, "./public/js/d3.geo.projection.min.js"))
+  var css = fs.readFileSync(path.join(__dirname, "./public/css/celestial.css"))
+  var stars = fs.readFileSync(path.join(__dirname, "./public/data/stars.json")).toString()
+  var file = 
+    fs.readFileSync(path.join(__dirname, "./public/export.html"))
+    .toString()
+    .replace(exportsRegex("STARS"), stars)
+    .replace(exportsRegex("D3"), d3)
+    .replace(exportsRegex("GEO"), geo)
+    .replace(exportsRegex("CSS"), css)
+  function exportsRegex(str) { return new RegExp(`(\\[\\{${str}\\}\\])`, "g") }
+  res.send(file)
+})
 
 app.post('/predictions/partition', (req, res) => {
   if (!req.body || !(req.body instanceof Array) || !req.body.length) {
@@ -20,7 +35,7 @@ app.post('/predictions/partition', (req, res) => {
 
   var newPredictions = predictionsToStars(predictionsArray)
   var savedPredictions = ""
-  
+
   if (fs.existsSync(tempFile)) {
     savedPredictions = fs.readFileSync(tempFile, { encoding: "utf8" }).toString()
     if (savedPredictions.trim()) {
@@ -59,7 +74,7 @@ app.use(express.static('public'))
 
 app.listen(3000, () => console.log("Listening on http://localhost:3000"))
 
-function predictionsToStars (predictions) {
+function predictionsToStars(predictions) {
   const xRange = 358
   const yRange = 280
   const lastIndex = predictions.length - 1

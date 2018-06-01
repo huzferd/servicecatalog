@@ -133,10 +133,16 @@ input[type="number"]::-webkit-outer-spin-button { height: auto; }
   color: white;
 }
 
-.red-stars, .orange-stars, .yellow-stars, .white-stars {
+.red-stars, .orange-stars, .yellow-stars, .white-stars, .export-link {
   padding-left: 10px;
   font-size: 13pt;
   align-content: center;
+  color: white
+}
+
+a {
+  color: white;
+  text-decoration: none;
 }
 
 header {
