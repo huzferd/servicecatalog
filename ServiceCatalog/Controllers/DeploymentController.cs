@@ -117,7 +117,7 @@ namespace ServiceCatalog.Controllers
 
                 var subscriptionId = Request.Form["SelectedSubscriptionId"];
 
-                var location = "East US 2";
+                var location = WebConfigurationManager.AppSettings[ConfigurationConstants.DefaultLocation];
 
                 var context = new WebAppContext();
                 var template = context.TemplateJsons.FirstOrDefault(tj => tj.TemplateId == templateId);
