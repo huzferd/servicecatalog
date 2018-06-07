@@ -52,6 +52,10 @@
     "logoUrl": {
       "type": "string",
       "defaultValue": "https://raw.githubusercontent.com/huzferd/servicecatalog/master/ServiceCatalog/Content/Images/logo.png"
+    },
+    "defaultLocation": {
+      "type": "string",
+      "defaultValue": "West US"
     }
   },
   "variables": {
@@ -158,7 +162,8 @@
             "PROJECT": "ServiceCatalog\\ServiceCatalog.csproj",
             "ADMIN_USER": "[parameters('siteAdminUserName')]",
             "clientUrl": "[variables('clientUrl')]",
-            "LOGO_URL": "[parameters('logoUrl')]"
+            "LOGO_URL": "[parameters('logoUrl')]",
+            "DEFAUL_LOCATION": "[parameters('defaultLocation')]"
           }
         },
         {
