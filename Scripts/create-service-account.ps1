@@ -76,7 +76,7 @@ catch {
 # Assign the Service Principal the Contributor Role to the Subscription.
 Write-Output "Assigning the Contributor role to the service principal..."
 Try {
-    Connect-AzureAD -Credential $psCred -TenantId $tenantId
+    Connect-AzureAD -Credential $psCred -TenantId $tenantId -SubscriptionId $subscriptionId
     New-AzureRmRoleAssignment -RoleDefinitionName Contributor -ServicePrincipalName $azureAdApplication.ApplicationId -ErrorAction Stop
 }
 Catch {
